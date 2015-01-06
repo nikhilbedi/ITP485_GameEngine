@@ -1,0 +1,12 @@
+*.obj
+*.idb
+*.pdb
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.Build.CppClean.log
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.log
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/CL.read.1.tlog
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/CL.write.1.tlog
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/CPPRefresher.lastbuildstate
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/cl.command.1.tlog
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/link.command.1.tlog
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/link.read.1.tlog
+CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/link.write.1.tlog
