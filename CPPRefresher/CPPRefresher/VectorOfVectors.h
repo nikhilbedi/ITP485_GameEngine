@@ -18,6 +18,8 @@ public:
 			//howver, they need to be completely replaced
 			T t;
 			return t;
+
+			// TODO -- retrieve what vector MainVector is pointing to, and what index in that vector we are currently at
 		}
 		
 		
@@ -29,7 +31,11 @@ public:
 		
 		void operator++()
 		{
-			//stub
+			// Check if we can go to the next element in the current vector
+			// If yes, go there
+			// If not, go to the next the vector
+				// while the current vector is empty and there is another vector available, 
+					// go to the next vector
 		}
 		
 		
@@ -45,28 +51,30 @@ public:
 
 					 
 		//and any member variables necessary....
+		int mainVectorIndex;
+		int innerVectorIndex;
 		
 	};
 	
 	void AddEmptyVector()
 	{
-		//stub
+		vector <T> empty;
+		mainVector.push_back(empty);
 	}
 	
 	void AddCopyOfVector( const vector< T >& inVector )
 	{
-		//stub
+		mainVector.push_back(inVector);
 	}
 	
 	vector< T >& GetVectorAtIndex( size_t inVectorIndex )
 	{
-		//stub...definitely replace the following return statement...
-		return vector<T>();
+		return mainVector[inVectorIndex];
 	}
 	
 	size_t GetVectorCount() const
 	{
-		//stub
+		return mainVector.size();
 	}
 	
 	iterator begin()
@@ -83,5 +91,5 @@ public:
 	
 	
 private:
-	//create any member variables you need...
+	vector < vector < T > > mainVector;
 };
