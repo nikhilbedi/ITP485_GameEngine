@@ -44,16 +44,16 @@ public:
 		friend class VectorOfVectors;
 		
 		//adjust parameters to constructor as necessary...
-		iterator( /*....*/ ) 
+		iterator(vector<vector<T>> vov, vector<T>* vec) 
 		{
-			//stub
+			currentVector = vov;
 		}
 
 					 
 		//and any member variables necessary....
 		int mainVectorIndex;
 		int innerVectorIndex;
-		
+		vector<vector<T>> currentVector;
 	};
 	
 	void AddEmptyVector()
@@ -80,13 +80,15 @@ public:
 	iterator begin()
 	{
 		//stub...definitely replace the following return statement to create an iterator with whatever parameters you need
-		return iterator();
+		if (!mainVector.empty())
+			return iterator(mainVector, &mainVector[0]);
+		else
+			return iterator(mainVector, NULL);
 	}
 	
 	iterator end()
 	{
-		//stub...definitely replace the following return statement to create an iterator with whatever parameters you need
-		return iterator();
+		return iterator(mainVector, NULL);
 	}
 	
 	
