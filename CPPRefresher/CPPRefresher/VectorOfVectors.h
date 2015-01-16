@@ -15,8 +15,7 @@ public:
 		T& operator*()
 		{
 			// TODO -- retrieve what vector MainVector is pointing to, and what index in that vector we are currently at
-			T t;
-			return t;
+			return innerVector->at(innerVectorIndex);
 		}
 		
 		
@@ -24,9 +23,9 @@ public:
 		{
 			if (this->mainVector == inOther.mainVector)
 				if (this->innerVector == inOther.innerVector)
-					return true;
+					return false;
 
-			return false;
+			return true;
 		}
 		
 		void operator++()
