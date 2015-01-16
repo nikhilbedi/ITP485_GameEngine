@@ -14,28 +14,53 @@ public:
 		
 		T& operator*()
 		{
-			//stub...definitely replace the following statments- they are only included now so that things will compile
-			//howver, they need to be completely replaced
+			// TODO -- retrieve what vector MainVector is pointing to, and what index in that vector we are currently at
 			T t;
 			return t;
-
-			// TODO -- retrieve what vector MainVector is pointing to, and what index in that vector we are currently at
 		}
 		
 		
 		bool operator!=( const iterator& inOther ) const
 		{
-			//stub...definitely replace the following return statement...
+			if (this->mainVector == inOther.mainVector)
+				if (this->innerVector == inOther.innerVector)
+					return true;
+
 			return false;
 		}
 		
 		void operator++()
 		{
-			// Check if we can go to the next element in the current vector
-			// If yes, go there
-			// If not, go to the next the vector
+			innerVectorIndex++;
+			// Check if this next element in the inner vector exists
+			if (innerVectorIndex < innerVector->size())
+			{
+				return;
+			}
+
+			// If not, go to the next nonempty vector
+			else
+			{
+				innerVectorIndex = 0;
+				mainVectorIndex++;
 				// while the current vector is empty and there is another vector available, 
-					// go to the next vector
+				// go to the next vector
+				while (mainVectorIndex < mainVector.size())
+				{
+					if (!mainVector[mainVectorIndex].empty())
+					{
+						break;
+					}
+					mainVectorIndex++;
+				}
+				// After tracking down which index, reassign innerVector
+				if (mainVectorIndex < mainVector.size())
+					innerVector = &mainVector[mainVectorIndex];
+				// else, we must have reached the end
+				else
+					innerVector = NULL;
+			}
+
 		}
 		
 		
@@ -46,14 +71,18 @@ public:
 		//adjust parameters to constructor as necessary...
 		iterator(vector<vector<T>> vov, vector<T>* vec) 
 		{
-			currentVector = vov;
+			mainVector = vov;
+			innerVector = vec;
+			mainVectorIndex = 0;
+			innerVectorIndex = 0;
 		}
 
 					 
 		//and any member variables necessary....
 		int mainVectorIndex;
 		int innerVectorIndex;
-		vector<vector<T>> currentVector;
+		vector<vector<T>> mainVector;
+		vector<T>* innerVector;
 	};
 	
 	void AddEmptyVector()
@@ -79,7 +108,6 @@ public:
 	
 	iterator begin()
 	{
-		//stub...definitely replace the following return statement to create an iterator with whatever parameters you need
 		if (!mainVector.empty())
 			return iterator(mainVector, &mainVector[0]);
 		else
