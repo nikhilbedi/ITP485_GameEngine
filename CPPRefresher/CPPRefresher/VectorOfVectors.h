@@ -14,8 +14,7 @@ public:
 		
 		T& operator*()
 		{
-			// TODO -- retrieve what vector MainVector is pointing to, and what index in that vector we are currently at
-			return innerVector->at(innerVectorIndex);
+			return mainVector[mainVectorIndex][innerVectorIndex];
 		}
 		
 		
@@ -40,32 +39,39 @@ public:
 			// If not, go to the next nonempty vector
 			else
 			{
-				innerVectorIndex = 0;
-				mainVectorIndex++;
-				// while the current vector is empty and there is another vector available, 
-				// go to the next vector
-				while (mainVectorIndex < mainVector.size())
-				{
-					if (!mainVector[mainVectorIndex].empty())
-					{
-						break;
-					}
-					mainVectorIndex++;
-				}
-				// After tracking down which index, reassign innerVector
-				if (mainVectorIndex < mainVector.size())
-					innerVector = &mainVector[mainVectorIndex];
-				// else, we must have reached the end
-				else
-					innerVector = NULL;
+				incrementInnerVector();
 			}
 
 		}
+
+		
 		
 		
 	private:
 		
 		friend class VectorOfVectors;
+
+		void incrementInnerVector()
+		{
+			innerVectorIndex = 0;
+			mainVectorIndex++;
+			// while the current vector is empty and there is another vector available, 
+			// go to the next vector
+			while (mainVectorIndex < mainVector.size())
+			{
+				if (!mainVector[mainVectorIndex].empty())
+				{
+					break;
+				}
+				mainVectorIndex++;
+			}
+			// After tracking down which index, reassign innerVector
+			if (mainVectorIndex < mainVector.size())
+				innerVector = &mainVector[mainVectorIndex];
+			// else, we must have reached the end
+			else
+				innerVector = NULL;
+		}
 		
 		//adjust parameters to constructor as necessary...
 		iterator(vector<vector<T>> vov, vector<T>* vec) 
@@ -74,6 +80,12 @@ public:
 			innerVector = vec;
 			mainVectorIndex = 0;
 			innerVectorIndex = 0;
+
+			// TODO find first nonempty vector
+			if (!mainVector.empty() && mainVector[0].empty())
+			{
+				incrementInnerVector();
+			}
 		}
 
 					 
