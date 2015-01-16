@@ -104,7 +104,9 @@ public:
 	
 	void AddCopyOfVector( const vector< T >& inVector )
 	{
-		mainVector.push_back(inVector);
+		// deep copy required
+		vector<T> tempVector = inVector; // this should be a deep copy
+		mainVector.push_back(tempVector);
 	}
 	
 	vector< T >& GetVectorAtIndex( size_t inVectorIndex )
