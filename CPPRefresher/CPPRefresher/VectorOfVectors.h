@@ -31,7 +31,7 @@ public:
 		{
 			innerVectorIndex++;
 			// Check if this next element in the inner vector exists
-			if (innerVectorIndex < innerVector->size())
+			if (innerVectorIndex < mainVector[mainVectorIndex].size())
 			{
 				return;
 			}
@@ -39,7 +39,7 @@ public:
 			// If not, go to the next nonempty vector
 			else
 			{
-				incrementInnerVector();
+				incrementMainVector();
 			}
 
 		}
@@ -51,7 +51,7 @@ public:
 		
 		friend class VectorOfVectors;
 
-		void incrementInnerVector()
+		void incrementMainVector()
 		{
 			innerVectorIndex = 0;
 			mainVectorIndex++;
@@ -84,7 +84,7 @@ public:
 			// TODO find first nonempty vector
 			if (!mainVector.empty() && mainVector[0].empty())
 			{
-				incrementInnerVector();
+				incrementMainVector();
 			}
 		}
 
