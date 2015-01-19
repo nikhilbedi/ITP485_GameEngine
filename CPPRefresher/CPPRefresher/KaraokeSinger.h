@@ -10,8 +10,9 @@ public:
 	KaraokeSinger( const string& inFirstName, const string& inLastName )
 	{
 		++sCount;
-		//stub
-
+		
+		this->firstName = inFirstName;
+		this->lastName = inLastName;
 	}
 
 	~KaraokeSinger()
@@ -26,14 +27,12 @@ public:
 
 	const std::string& GetFirstName() const
 	{
-		//stub...change the return statement...
-		return "";
+		return firstName;
 	}
 
 	const std::string& GetLastName() const
 	{
-		//stub
-		return "";
+		return lastName;
 	}
 
 private:
@@ -42,7 +41,9 @@ private:
 	KaraokeSinger( const KaraokeSinger& inOther ) {}
 	KaraokeSinger& operator=( const KaraokeSinger& inOther ) {}
 
-	//create any necessary member variables
-
 	static int sCount;
+
+	//create any necessary member variables
+	string firstName;
+	string lastName;
 };
