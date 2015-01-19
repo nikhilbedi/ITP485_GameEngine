@@ -10,7 +10,9 @@ public:
 	KaraokeSong( const string& inName, int inSeconds )
 	{
 		++sCount;
-		//stub...
+
+		this->name = inName;
+		this->seconds = inSeconds;
 	}
 
 	~KaraokeSong()
@@ -23,15 +25,13 @@ public:
 	//Add an accessor for returning the name of the song
 	const std::string& GetName() const 
 	{ 
-		//stub, return correct value...
-		return ""; 
+		return name; 
 	}
 
 	//add an accessor for returning the duration of the song
 	int GetSeconds() const 
 	{
-		//stub, return correct value...
-		return 0;
+		return seconds;
 	}
 
 private:
@@ -41,4 +41,8 @@ private:
 	KaraokeSong& operator=( const KaraokeSong& inOther ) {}
 
 	static int sCount;
+
+	// Member variables 
+	string name;
+	int seconds;
 };
