@@ -17,6 +17,8 @@ public:
 	void SignUp( std::shared_ptr< KaraokeSinger > inSinger, std::shared_ptr< KaraokeSong > inSong )
 	{
 		//stub...
+		KaraokeSignUp signUp(inSinger, inSong);
+		mSignUps.push_back(signUp);
 	}
 
 	//add a method which takes a singer and returns the total number of minutes for which the singer is currently signed up
@@ -24,7 +26,16 @@ public:
 	{
 		int totalSeconds = 0;
 
-		//stub...
+		// For each sign up i
+			// if i's singer is inSinger
+				// return i's song's GetSeconds()
+		for (int i = 0; i < mSignUps.size(); i++)
+		{
+			if (mSignUps[i].GetSinger() == inSinger)
+			{
+				return mSignUps[i].GetSong()->GetSeconds();
+			}
+		}
 
 		return totalSeconds;
 	}
@@ -33,7 +44,17 @@ private:
 
 	bool DoesContainSong( std::shared_ptr< KaraokeSong > inSong )
 	{
-		//stub...
+		// For each sign up i
+			// if i's song is inSong
+				// return true
+		// Return false
+		for (int i = 0; i < mSignUps.size(); i++)
+		{
+			if (mSignUps[i].GetSong() == inSong)
+			{
+				return true;
+			}
+		}
 
 		return false;
 	}
