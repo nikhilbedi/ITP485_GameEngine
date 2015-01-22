@@ -81,8 +81,8 @@ public:
 			mainVectorIndex = 0;
 			innerVectorIndex = 0;
 
-			// TODO find first nonempty vector
-			if (!mainVector.empty() && mainVector[0].empty())
+			// TODO find first nonempty vector, only if vec is not NULL (Which means it is at end)
+			if (!mainVector.empty() && mainVector[0].empty() && innerVector != NULL)
 			{
 				incrementMainVector();
 			}
