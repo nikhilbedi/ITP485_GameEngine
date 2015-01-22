@@ -14,11 +14,13 @@ public:
 	
 	//add a method that takes a singer and a song as parameters and adds them to a list of signups 
 		//however, make sure that song isn't already in the list to be sung.  If it is, just ignore the signup
-	void SignUp( std::shared_ptr< KaraokeSinger > inSinger, std::shared_ptr< KaraokeSong > inSong )
+	void SignUp(std::shared_ptr< KaraokeSinger > inSinger, std::shared_ptr< KaraokeSong > inSong)
 	{
-		//stub...
-		KaraokeSignUp signUp(inSinger, inSong);
-		mSignUps.push_back(signUp);
+		if (!DoesContainSong(inSong))
+		{
+			KaraokeSignUp signUp(inSinger, inSong);
+			mSignUps.push_back(signUp);
+		}
 	}
 
 	//add a method which takes a singer and returns the total number of minutes for which the singer is currently signed up
@@ -33,7 +35,7 @@ public:
 		{
 			if (mSignUps[i].GetSinger() == inSinger)
 			{
-				return mSignUps[i].GetSong()->GetSeconds();
+				totalSeconds += mSignUps[i].GetSong()->GetSeconds();
 			}
 		}
 
