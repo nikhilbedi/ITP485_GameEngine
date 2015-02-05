@@ -363,7 +363,8 @@ public:
 	// Returns the float result.
 	__forceinline float Dot(const FastVector3& rhs) const
 	{
-		return 0.0f; // TODO: Fix
+		__m128 temp = _mm_dp_ps(this->_data, rhs._data, 0x77); // 0x77 to use x y z components
+		return temp.m128_f32[0];
 	}
 
 	// Adds this vector to rhs, storing in this
@@ -400,7 +401,10 @@ public:
 	// Returns the length squared of this vector
 	__forceinline float LengthSquared() const
 	{
-		return 0.0f; // TODO: Fix
+		// Dot the vector with itself (this computes length squared). Store scalar in every component of m128 temp
+		__m128 temp = _mm_dp_ps(this->_data, this->_data, 0x77); // 0x77 so we isolate x,y,z component
+		return temp.m128_f32[0];
+
 	}
 
 	// Returns the length of this vector
