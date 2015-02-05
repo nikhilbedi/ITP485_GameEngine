@@ -410,13 +410,23 @@ public:
 	// Returns the length of this vector
 	__forceinline float Length() const
 	{
-		return 0.0f; // TODO: Fix
+		// Dot the vector with itself (this computes length squared). Store scalar in every component of m128 temp
+		__m128 temp = _mm_dp_ps(this->_data, this->_data, 0x77); // 0x77 so we isolate x,y,z component
+		temp = _mm_sqrt_ps(temp);
+		return temp.m128_f32[0];
 	}
 
 	// Does a cross product between lhs and rhs, returning the result vector by value
 	__forceinline friend FastVector3 Cross(const FastVector3& lhs, const FastVector3& rhs)
 	{
-		return FastVector3(FastVector3::Zero); // TODO: Fix
+		__m128 tempA = _mm_shuffle_ps(lhs._data, lhs._data, _MM_SHUFFLER(1, 2, 0, 3));
+		__m128 tempB = _mm_shuffle_ps(rhs._data, rhs._data, _MM_SHUFFLER(2, 0, 1, 3));
+		__m128 result = _mm_mul_ps(tempA, tempB);
+		tempA = _mm_shuffle_ps(lhs._data, lhs._data, _MM_SHUFFLER(2, 0, 1, 3));
+		tempB = _mm_shuffle_ps(rhs._data, rhs._data, _MM_SHUFFLER(1, 2, 0, 3));
+		tempA = _mm_mul_ps(tempA, tempB);
+		result = _mm_sub_ps(result, tempA);
+		return FastVector3(result);
 	}
 
 	// Interpolates between a and b, returning the result vector by value
