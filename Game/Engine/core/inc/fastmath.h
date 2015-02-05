@@ -389,6 +389,12 @@ public:
 	__forceinline void Normalize()
 	{
 		// TODO
+		// Dot the vector with itself. Store scalar in every component of m128 temp
+		__m128 temp = _mm_dp_ps(this->_data, this->_data, 0x77); // 0x77 so we isolate x,y,z component
+		// Take reciprocal square root of every component in temp
+		temp = _mm_rsqrt_ps(temp);
+		// vector *= temp
+		this->_data = _mm_mul_ps(this->_data, temp);
  	}
 
 	// Returns the length squared of this vector
