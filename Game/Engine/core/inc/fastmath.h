@@ -467,7 +467,21 @@ public:
 	// w is set to 1.0f before the transform is done
 	__forceinline void Transform(const FastMatrix4 &mat)
 	{
-		// TODO
+		// Assign w component to 1.0f
+		this->_data.m128_f32[3] = 1.0f; // TODO think of another way 
+		// x' = row0 (dot) v
+		__m128 tempX = _mm_dp_ps(mat._rows[0], this->_data, 0xF1);	// Use all components, store in x
+		// y' = row1 (dot) v
+		__m128 tempY = _mm_dp_ps(mat._rows[1], this->_data, 0xF2);	// Use all components, store in y
+		// z' = row2 (dot) v
+		__m128 tempZ = _mm_dp_ps(mat._rows[2], this->_data, 0xF4);	// Use all components, store in z
+		// w' = row3 (dot) v
+		__m128 tempW = _mm_dp_ps(mat._rows[3], this->_data, 0xF8);	// Use all components, store in w
+		// add x', y', z', w'
+		this->_data = _mm_add_ps(this->_data, tempX);
+		this->_data = _mm_add_ps(this->_data, tempY);
+		this->_data = _mm_add_ps(this->_data, tempZ);
+		this->_data = _mm_add_ps(this->_data, tempW);
  	}
 
 	// Rotates this vector by the passed quaternion
