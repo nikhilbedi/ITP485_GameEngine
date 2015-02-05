@@ -433,7 +433,12 @@ public:
 	// result = a * (1.0f - f) + b * f
 	__forceinline friend FastVector3 Lerp(const FastVector3 &a, const FastVector3 &b, float f)
 	{
-		return FastVector3(FastVector3::Zero); // TODO: Fix
+		FastVector3 tempA = a;
+		FastVector3 tempB = b;
+		tempA.Multiply(1.0f - f);
+		tempB.Multiply(f);
+		tempA.Sub(tempB);
+		return tempA;
 	}
 
 	// does a 4-way blend
