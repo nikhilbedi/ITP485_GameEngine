@@ -447,7 +447,20 @@ public:
 	__forceinline friend FastVector3 Blend(const FastVector3& a, const FastVector3& b, const FastVector3& c, const FastVector3& d,
 											float fa, float fb, float fc)
 	{
-		return FastVector3(FastVector3::Zero); // TODO: Fix
+		float fd = 1.0f - fa - fb - fc;
+		FastVector3 tempA = a;
+		FastVector3 tempB = b;
+		FastVector3 tempC = c;
+		FastVector3 tempD = d;
+		tempA.Multiply(fa);
+		tempB.Multiply(fb);
+		tempC.Multiply(fc);
+		tempD.Multiply(fd);
+		// Add the vectors
+		tempA.Add(tempB);
+		tempA.Add(tempC);
+		tempA.Add(tempD);
+		return tempA;
 	}
 
 	// Transforms this vector by the passed 4x4 matrix
