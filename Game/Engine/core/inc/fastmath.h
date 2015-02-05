@@ -369,13 +369,13 @@ public:
 	// Adds this vector to rhs, storing in this
 	__forceinline void Add(const FastVector3& rhs)
 	{
-		// TODO
+		this->_data = _mm_add_ps(this->_data, rhs._data);
 	}
 
 	// Subtracts this - rhs, storing in this
 	__forceinline void Sub(const FastVector3& rhs)
 	{
-		// TODO
+		this->_data = _mm_sub_ps(this->_data, rhs._data);
 	}
 
 	// Does a scalar multiply by scalar
