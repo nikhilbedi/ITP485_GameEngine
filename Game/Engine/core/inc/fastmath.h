@@ -109,7 +109,37 @@ public:
 		// transpose the rhs matrix
 		_MM_TRANSPOSE4_PS(rhs_row0, rhs_row1, rhs_row2, rhs_row3);
 
-		// TODO
+		// Zeroth row
+		__m128 tempRow0;
+		tempRow0 = _mm_dp_ps(this->_rows[0], rhs_row0, 0xF8);	// 1111 1000
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[1], rhs_row0, 0xF4));	// 1111 0100
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[2], rhs_row0, 0xF2));	// 1111 0010
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[3], rhs_row0, 0XF1));	// 1111 0001
+		this->_rows[0] = tempRow0;
+
+		// Second row
+		__m128 tempRow1;
+		tempRow1 = _mm_dp_ps(this->_rows[0], rhs_row1, 0xF8);
+		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[1], rhs_row1, 0xF4));
+		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[2], rhs_row1, 0xF2));
+		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[3], rhs_row1, 0XF1));
+		this->_rows[1] = tempRow1;
+
+		// Third row
+		__m128 tempRow2;
+		tempRow2 = _mm_dp_ps(this->_rows[0], rhs_row2, 0xF8);
+		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[1], rhs_row2, 0xF4));
+		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[2], rhs_row2, 0xF2));
+		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[3], rhs_row2, 0XF1));
+		this->_rows[2] = tempRow2;
+
+		// Fourth row
+		__m128 tempRow3;
+		tempRow3 = _mm_dp_ps(this->_rows[0], rhs_row3, 0xF8);
+		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[1], rhs_row3, 0xF4));
+		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[2], rhs_row3, 0xF2));
+		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[3], rhs_row3, 0XF1));
+		this->_rows[3] = tempRow3;
 	}
 
 	// Adds the rhs matrix to this one, storing in this
@@ -491,7 +521,21 @@ public:
 	// w is set to 0.0f before the transform is done
 	__forceinline void TransformAsVector(const FastMatrix4 &mat)
 	{
-		// TODO
+		// Assign w component to 1.0f
+		this->_data.m128_f32[3] = 0.0f; // TODO think of another way 
+		// x' = row0 (dot) v
+		__m128 tempX = _mm_dp_ps(mat._rows[0], this->_data, 0xF1);	// Use all components, store in x
+		// y' = row1 (dot) v
+		__m128 tempY = _mm_dp_ps(mat._rows[1], this->_data, 0xF2);	// Use all components, store in y
+		// z' = row2 (dot) v
+		__m128 tempZ = _mm_dp_ps(mat._rows[2], this->_data, 0xF4);	// Use all components, store in z
+		// w' = row3 (dot) v
+		__m128 tempW = _mm_dp_ps(mat._rows[3], this->_data, 0xF8);	// Use all components, store in w
+		// add x', y', z', w'
+		this->_data = _mm_add_ps(this->_data, tempX);
+		this->_data = _mm_add_ps(this->_data, tempY);
+		this->_data = _mm_add_ps(this->_data, tempZ);
+		this->_data = _mm_add_ps(this->_data, tempW);
  	}
 
 	friend class FastMatrix4;
