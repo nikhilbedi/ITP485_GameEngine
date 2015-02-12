@@ -111,10 +111,10 @@ public:
 
 		// Zeroth row
 		__m128 tempRow0;
-		tempRow0 = _mm_dp_ps(this->_rows[0], rhs_row0, 0xF1);	// 1111 1000
-		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[1], rhs_row0, 0xF2));	// 1111 0100
-		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[2], rhs_row0, 0xF4));	// 1111 0010
-		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[3], rhs_row0, 0xF8));	// 1111 0001
+		tempRow0 = _mm_dp_ps(this->_rows[0], rhs_row0, 0xF1);	// store in x
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[1], rhs_row0, 0xF2));	// store in y
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[2], rhs_row0, 0xF4));	// store in z
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[3], rhs_row0, 0xF8));	// store in w
 		this->_rows[0] = tempRow0;
 
 		// Second row
@@ -507,8 +507,9 @@ public:
 		__m128 tempZ = _mm_dp_ps(mat._rows[2], this->_data, 0xF4);	// Use all components, store in z
 		// w' = row3 (dot) v
 		__m128 tempW = _mm_dp_ps(mat._rows[3], this->_data, 0xF8);	// Use all components, store in w
+
 		// add x', y', z', w'
-		this->_data = _mm_add_ps(this->_data, tempX);
+		this->_data = tempX;
 		this->_data = _mm_add_ps(this->_data, tempY);
 		this->_data = _mm_add_ps(this->_data, tempZ);
 		this->_data = _mm_add_ps(this->_data, tempW);
@@ -522,7 +523,7 @@ public:
 	__forceinline void TransformAsVector(const FastMatrix4 &mat)
 	{
 		// Assign w component to 1.0f
-		this->_data.m128_f32[3] = 0.0f; // TODO think of another way 
+		this->_data.m128_f32[3] = 0.0f; // TODO think of another way. Go to SIMD Tutorial to find out
 		// x' = row0 (dot) v
 		__m128 tempX = _mm_dp_ps(mat._rows[0], this->_data, 0xF1);	// Use all components, store in x
 		// y' = row1 (dot) v
@@ -532,7 +533,7 @@ public:
 		// w' = row3 (dot) v
 		__m128 tempW = _mm_dp_ps(mat._rows[3], this->_data, 0xF8);	// Use all components, store in w
 		// add x', y', z', w'
-		this->_data = _mm_add_ps(this->_data, tempX);
+		this->_data = tempX;
 		this->_data = _mm_add_ps(this->_data, tempY);
 		this->_data = _mm_add_ps(this->_data, tempZ);
 		this->_data = _mm_add_ps(this->_data, tempW);
