@@ -112,33 +112,34 @@ public:
 		// Zeroth row
 		__m128 tempRow0;
 		tempRow0 = _mm_dp_ps(this->_rows[0], rhs_row0, 0xF1);	// store in x
-		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[1], rhs_row0, 0xF2));	// store in y
-		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[2], rhs_row0, 0xF4));	// store in z
-		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[3], rhs_row0, 0xF8));	// store in w
-		this->_rows[0] = tempRow0;
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[0], rhs_row1, 0xF2));	// store in y
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[0], rhs_row2, 0xF4));	// store in z
+		tempRow0 = _mm_add_ps(tempRow0, _mm_dp_ps(this->_rows[0], rhs_row3, 0xF8));	// store in w
+
+		// First row
+		__m128 tempRow1;
+		tempRow1 = _mm_dp_ps(this->_rows[1], rhs_row0, 0xF1);
+		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[1], rhs_row1, 0xF2));
+		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[1], rhs_row2, 0xF4));
+		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[1], rhs_row3, 0XF8));
 
 		// Second row
-		__m128 tempRow1;
-		tempRow1 = _mm_dp_ps(this->_rows[0], rhs_row1, 0xF1);
-		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[1], rhs_row1, 0xF2));
-		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[2], rhs_row1, 0xF4));
-		tempRow1 = _mm_add_ps(tempRow1, _mm_dp_ps(this->_rows[3], rhs_row1, 0XF8));
-		this->_rows[1] = tempRow1;
+		__m128 tempRow2;
+		tempRow2 = _mm_dp_ps(this->_rows[2], rhs_row0, 0xF1);
+		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[2], rhs_row1, 0xF2));
+		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[2], rhs_row2, 0xF4));
+		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[2], rhs_row3, 0XF8));
 
 		// Third row
-		__m128 tempRow2;
-		tempRow2 = _mm_dp_ps(this->_rows[0], rhs_row2, 0xF1);
-		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[1], rhs_row2, 0xF2));
-		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[2], rhs_row2, 0xF4));
-		tempRow2 = _mm_add_ps(tempRow2, _mm_dp_ps(this->_rows[3], rhs_row2, 0XF8));
-		this->_rows[2] = tempRow2;
-
-		// Fourth row
 		__m128 tempRow3;
-		tempRow3 = _mm_dp_ps(this->_rows[0], rhs_row3, 0xF1);
-		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[1], rhs_row3, 0xF2));
-		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[2], rhs_row3, 0xF4));
+		tempRow3 = _mm_dp_ps(this->_rows[3], rhs_row0, 0xF1);
+		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[3], rhs_row1, 0xF2));
+		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[3], rhs_row2, 0xF4));
 		tempRow3 = _mm_add_ps(tempRow3, _mm_dp_ps(this->_rows[3], rhs_row3, 0XF8));
+
+		this->_rows[0] = tempRow0;
+		this->_rows[1] = tempRow1;
+		this->_rows[2] = tempRow2;
 		this->_rows[3] = tempRow3;
 	}
 
