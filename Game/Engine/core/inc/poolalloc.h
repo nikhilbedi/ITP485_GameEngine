@@ -145,14 +145,16 @@ protected:
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::StartUp()
 {
-
+	m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size*num_blocks, 16));
+	m_pFreeList = m_pPool;
 }
 
 // ShutDown deallocates the pool.
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::ShutDown()
 {
-
+	delete[] m_pPool;
+	m_pFreeList = 0;
 }
 
 // Allocate returns a pointer to usable memory within the pool.
