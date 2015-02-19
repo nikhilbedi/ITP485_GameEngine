@@ -227,6 +227,22 @@ void* PoolAllocator<block_size, num_blocks>::Allocate(size_t size)
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::Free(void* ptr)
 {
+#ifdef _DEBUG
+	//Dbg_Assert()
+#endif
+	if (ptr == NULL)
+		return;
+
+	PoolBlock<block_size>* poolPtr = reinterpret_cast<PoolBlock<block_size>*>(ptr);
+	for (int j = 0; j < block_size; j++)
+	{
+		m_pPool->_memory[j] = 0xde;
+	}
+	m_pPool->_boundary = 0xdeadbeef;
+	poolPtr->_next = m_pFreeList;
+	m_pFreeList = poolPtr;
+
+	iBlocksFree++;
 
 }
 
