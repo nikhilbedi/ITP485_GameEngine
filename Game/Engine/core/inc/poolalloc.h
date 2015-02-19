@@ -175,13 +175,6 @@ void PoolAllocator<block_size, num_blocks>::StartUp()
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::ShutDown()
 {
-	/*PoolBlock<block_size>* temp = m_pPool;
-	while (temp != NULL)
-	{
-		m_pPool = m_pPool->_next;
-		delete temp;
-		temp = m_pPool;
-	}*/
 	delete[] m_pPool;
 	m_pFreeList = NULL;
 }
@@ -227,13 +220,15 @@ void* PoolAllocator<block_size, num_blocks>::Allocate(size_t size)
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::Free(void* ptr)
 {
-#ifdef _DEBUG
-	//Dbg_Assert()
-#endif
 	if (ptr == NULL)
 		return;
 
 	PoolBlock<block_size>* poolPtr = reinterpret_cast<PoolBlock<block_size>*>(ptr);
+
+#ifdef _DEBUG
+	Dbg_Assert(poolPtr->_boundary == 0xdeadbeef, "Bounds were overwritten");
+#endif
+
 	for (int j = 0; j < block_size; j++)
 	{
 		m_pPool->_memory[j] = 0xde;

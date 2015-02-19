@@ -420,7 +420,6 @@ public:
 	// Normalizes this vector
 	__forceinline void Normalize()
 	{
-		// TODO
 		// Dot the vector with itself. Store scalar in every component of m128 temp
 		__m128 temp = _mm_dp_ps(this->_data, this->_data, 0x77); // 0x77 so we isolate x,y,z component
 		// Take reciprocal square root of every component in temp
@@ -499,7 +498,7 @@ public:
 	__forceinline void Transform(const FastMatrix4 &mat)
 	{
 		// Assign w component to 1.0f
-		this->_data.m128_f32[3] = 1.0f; // TODO think of another way 
+		this->_data.m128_f32[3] = 1.0f;
 		// x' = row0 (dot) v
 		__m128 tempX = _mm_dp_ps(mat._rows[0], this->_data, 0xF1);	// Use all components, store in x
 		// y' = row1 (dot) v
@@ -524,7 +523,7 @@ public:
 	__forceinline void TransformAsVector(const FastMatrix4 &mat)
 	{
 		// Assign w component to 1.0f
-		this->_data.m128_f32[3] = 0.0f; // TODO think of another way. Go to SIMD Tutorial to find out
+		this->_data.m128_f32[3] = 0.0f;
 		// x' = row0 (dot) v
 		__m128 tempX = _mm_dp_ps(mat._rows[0], this->_data, 0xF1);	// Use all components, store in x
 		// y' = row1 (dot) v
