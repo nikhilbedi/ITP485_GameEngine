@@ -155,6 +155,15 @@ void PoolAllocator<block_size, num_blocks>::StartUp()
 	for (int i = 1; i < num_blocks; i++)
 	{
 		m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size, 16));
+		// If in debug mode, for each pool block, assign values 
+#ifdef _DEBUG 
+		for (int j = 0; j < block_size; j++)
+		{
+			m_pPool->_memory[j] = 0xde;
+		}
+		m_pPool->_boundary = 0xdeadbeef;
+#endif
+
 		tempPrev->_next = m_pPool;
 		tempPrev = m_pPool;
 		m_pPool++;
@@ -166,13 +175,14 @@ void PoolAllocator<block_size, num_blocks>::StartUp()
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::ShutDown()
 {
-	PoolBlock<block_size>* temp = m_pPool;
+	/*PoolBlock<block_size>* temp = m_pPool;
 	while (temp != NULL)
 	{
 		m_pPool = m_pPool->_next;
 		delete temp;
 		temp = m_pPool;
-	}
+	}*/
+	delete[] m_pPool;
 	m_pFreeList = NULL;
 }
 
@@ -188,7 +198,22 @@ template <size_t block_size, unsigned int num_blocks>
 void* PoolAllocator<block_size, num_blocks>::Allocate(size_t size)
 {
 	Dbg_Assert(size <= block_size, "Allocation request is bigger than block.");
-	return 0;
+	if (size > block_size)
+	{
+		return 0;
+	}
+
+	Dbg_Assert(iBlocksFree > 0, "There are no more blocks free.");
+	if (iBlocksFree == 0)
+	{
+		return 0;
+	}
+
+	void* returnPtr = m_pFreeList->_memory;
+	m_pFreeList = m_pFreeList->_next;
+
+	iBlocksFree--;
+	return returnPtr;
 }
 
 // Free will return the block to the front of the free list.
