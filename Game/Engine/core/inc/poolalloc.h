@@ -145,16 +145,35 @@ protected:
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::StartUp()
 {
-	m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size*num_blocks, 16));
+	iBlocksFree = num_blocks;
+
+	// For each pool block, allocate it, and assign a next pointer
+	m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size, 16));
+	PoolBlock<block_size>* tempPrev = m_pPool;
 	m_pFreeList = m_pPool;
+	m_pPool++;
+	for (int i = 1; i < num_blocks; i++)
+	{
+		m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size, 16));
+		tempPrev->_next = m_pPool;
+		tempPrev = m_pPool;
+		m_pPool++;
+	}
+	m_pPool = m_pFreeList;
 }
 
 // ShutDown deallocates the pool.
 template <size_t block_size, unsigned int num_blocks>
 void PoolAllocator<block_size, num_blocks>::ShutDown()
 {
-	delete[] m_pPool;
-	m_pFreeList = 0;
+	PoolBlock<block_size>* temp = m_pPool;
+	while (temp != NULL)
+	{
+		m_pPool = m_pPool->_next;
+		delete temp;
+		temp = m_pPool;
+	}
+	m_pFreeList = NULL;
 }
 
 // Allocate returns a pointer to usable memory within the pool.
@@ -168,6 +187,7 @@ void PoolAllocator<block_size, num_blocks>::ShutDown()
 template <size_t block_size, unsigned int num_blocks>
 void* PoolAllocator<block_size, num_blocks>::Allocate(size_t size)
 {
+	Dbg_Assert(size <= block_size, "Allocation request is bigger than block.");
 	return 0;
 }
 
