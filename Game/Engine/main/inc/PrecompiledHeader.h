@@ -26,3 +26,20 @@ using std::set;
 #include <Timing.h>
 #include <poolalloc.h>
 
+#include <DelegateList.h>
+#include <InputManager.h>
+
+#include <GraphicsDriver.h>
+
+#include <Camera.h>
+
+#include <Mesh.h>
+#include <MeshComponent.h>
+#include <SceneGraph.h>
+
+#include <GameObject.h>
+#include <LightingConstants.h>
+#include <GameWorld.h>
+#include <GameClassRegistry.h>
+
+#include <App.h>

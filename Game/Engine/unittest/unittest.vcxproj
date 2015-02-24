@@ -80,10 +80,9 @@
   <ItemGroup>
     <ClInclude Include="..\core\inc\dbg_assert.h" />
     <ClInclude Include="..\core\inc\fastmath.h" />
-    <ClInclude Include="..\core\inc\poolalloc.h" />
     <ClInclude Include="..\core\inc\slowmath.h" />
+    <ClInclude Include="..\core\poolalloc.h" />
     <ClInclude Include="..\core\singleton.h" />
-    <ClInclude Include="..\main\inc\PrecompiledHeader.h" />
     <ClInclude Include="..\MiniCppUnit-2.5\MiniCppUnit.hxx" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
