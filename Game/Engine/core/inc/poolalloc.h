@@ -148,13 +148,10 @@ void PoolAllocator<block_size, num_blocks>::StartUp()
 	iBlocksFree = num_blocks;
 
 	// For each pool block, allocate it, and assign a next pointer
-	m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size, 16));
-	PoolBlock<block_size>* tempPrev = m_pPool;
+	m_pPool = new PoolBlock<block_size>[num_blocks];
 	m_pFreeList = m_pPool;
-	m_pPool++;
 	for (int i = 1; i < num_blocks; i++)
 	{
-		m_pPool = reinterpret_cast<PoolBlock<block_size>*> (_aligned_malloc(block_size, 16));
 		// If in debug mode, for each pool block, assign values 
 #ifdef _DEBUG 
 		for (int j = 0; j < block_size; j++)
@@ -163,12 +160,8 @@ void PoolAllocator<block_size, num_blocks>::StartUp()
 		}
 		m_pPool->_boundary = 0xdeadbeef;
 #endif
-
-		tempPrev->_next = m_pPool;
-		tempPrev = m_pPool;
-		m_pPool++;
+		m_pFreeList[i - 1]._next = &m_pFreeList[i];
 	}
-	m_pPool = m_pFreeList;
 }
 
 // ShutDown deallocates the pool.
