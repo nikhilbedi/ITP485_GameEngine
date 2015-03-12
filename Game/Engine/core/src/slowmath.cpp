@@ -1,3 +1,4 @@
+#include <PrecompiledHeader.h>
 // SlowMath.cpp defines statics for the slow math library
 #include "slowmath.h"
 
@@ -16,6 +17,9 @@ const SlowVector3 SlowVector3::UnitZ(0.0f, 0.0f, 1.0f);
 const SlowVector3 SlowVector3::NegativeUnitX(-1.0f, 0.0f, 0.0f);
 const SlowVector3 SlowVector3::NegativeUnitY(0.0f, -1.0f, 0.0f);
 const SlowVector3 SlowVector3::NegativeUnitZ(0.0f, 0.0f, -1.0f);
+const SlowVector3 SlowVector3::Right( 1.0f, 0.0f, 0.0f );
+const SlowVector3 SlowVector3::Up( 0.0f, 1.0f, 0.0f );
+const SlowVector3 SlowVector3::Forward( 0.0f, 0.0f, 1.0f );
 
 const SlowQuaternion SlowQuaternion::Identity(0.0f, 0.0f, 0.0f, 1.0f);
 

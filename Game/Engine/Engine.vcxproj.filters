@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns:atg="http://atg.xbox.com" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8e114980-c1a3-4ada-ad7c-83caadf5daeb}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{75664496-e669-4080-9918-326b316510cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\inc">
+      <UniqueIdentifier>{19645982-976f-4a9e-b652-4e6c5ae2b02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\src">
+      <UniqueIdentifier>{90db61ac-e6c9-43ac-a665-7c8697c1dcd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphicsdriver">
+      <UniqueIdentifier>{2790df8c-065b-47ba-b2da-8c422bdfd7c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphicsdriver\inc">
+      <UniqueIdentifier>{27c0af85-31b2-460d-97f5-a8239f010aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphicsdriver\src">
+      <UniqueIdentifier>{b59e9232-4f68-4180-906b-42fb7855bcbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{18265487-8f25-4787-84cf-e98fdcdc06b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\inc">
+      <UniqueIdentifier>{53f02b7c-c562-4c02-a07b-7971d4d304b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\src">
+      <UniqueIdentifier>{2b0e03fd-b0f5-49e1-a9ff-86aaa0ff584e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{3ec5123e-40bf-448a-8aff-b096a8bda55c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\src">
+      <UniqueIdentifier>{1b00d99b-72f1-4784-bfe9-e18cb3638aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\inc">
+      <UniqueIdentifier>{b6dd6430-9a07-4b28-b2cd-1e9c303a15d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{1d9d58df-c832-44ea-b77c-62213de87b1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Shaders">
+      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
+      <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="Data\Meshes">
+      <UniqueIdentifier>{a988d9b9-0aa6-4700-bc0f-db6932f946d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Levels">
+      <UniqueIdentifier>{58fdb3ed-d72e-41fb-b61b-d341d6677c82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ini">
+      <UniqueIdentifier>{a3e0ebb7-32dd-4c9f-91ce-167d761b9ced}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CLInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </CLInclude>
+    <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
+      <Filter>graphicsdriver\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\PrecompiledHeader.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\poolalloc.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\singleton.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\slowmath.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\dbg_assert.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\fastmath.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\itpmath.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App3_1.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App3_2.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\StringUtils.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\Timing.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\InputManager.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\DelegateList.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\AppManager.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App3_3.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Camera.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\inc\ITPMememory.h">
+      <Filter>core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Mesh.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App3_4.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsdriver\inc\InputLayoutCache.h">
+      <Filter>graphicsdriver\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\ITPMeshImporter.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App3_5.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\MeshManager.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ini\minGlue.h">
+      <Filter>ini</Filter>
+    </ClInclude>
+    <ClInclude Include="ini\minIni.h">
+      <Filter>ini</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\MeshComponent.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\GameObject.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\GameWorld.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App3_6.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\SceneGraph.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\GameClassRegistry.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Roller.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Spinner.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App4_1.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\LightingConstants.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\App4_2.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main\src\main.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp">
+      <Filter>graphicsdriver\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\PrecompiledHeader.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\fastmath.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\slowmath.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\dbg_assert.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App3_1.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App3_2.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\StringUtils.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\Timing.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\InputManager.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\AppManager.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App3_3.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\Camera.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\Mesh.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App3_4.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsdriver\src\InputLayoutCache.cpp">
+      <Filter>graphicsdriver\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\ITPMeshImporter.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App3_5.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\MeshManager.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\GameObject.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\GameWorld.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\MeshComponent.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App3_6.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\SceneGraph.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ini\minIni.cpp">
+      <Filter>ini</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\GameClassRegistry.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\Roller.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\Spinner.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App4_1.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\App4_2.cpp">
+      <Filter>main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\LightingConstants.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Data\Shaders\App3_1.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shaders\App3_2.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shaders\App3_3.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shaders\App4_1.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Data\Shaders\App4_2.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Meshes\Carl.itpmesh">
+      <Filter>Data\Meshes</Filter>
+    </None>
+    <None Include="..\Data\Levels\Lab3Level.ini">
+      <Filter>Data\Levels</Filter>
+    </None>
+    <None Include="..\Data\Levels\Lab4_1Level.ini">
+      <Filter>Data\Levels</Filter>
+    </None>
+    <None Include="..\Data\Levels\Lab4_2Level.ini">
+      <Filter>Data\Levels</Filter>
+    </None>
+  </ItemGroup>
+</Project>

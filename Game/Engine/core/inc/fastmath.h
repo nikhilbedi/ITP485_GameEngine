@@ -13,7 +13,7 @@
 #ifndef D3DMATRIX_DEFINED
 typedef struct _D3DMATRIX {
 	union {
-		struct {
+		struct stuff {
 			float        _11, _12, _13, _14;
 			float        _21, _22, _23, _24;
 			float        _31, _32, _33, _34;
@@ -549,6 +549,9 @@ public:
 	static const FastVector3 NegativeUnitX;
 	static const FastVector3 NegativeUnitY;
 	static const FastVector3 NegativeUnitZ;
+	static const FastVector3 Right;
+	static const FastVector3 Up;
+	static const FastVector3 Forward;
 };
 
 // Unit quaternion class using SIMD

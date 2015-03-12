@@ -3,7 +3,7 @@
 #define _MATH_H_
 
 // Change this to 0 if you don't want to use SIMD
-#define USE_SIMD 0
+#define USE_SIMD 1
 
 #if USE_SIMD
 

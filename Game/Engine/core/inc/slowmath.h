@@ -10,7 +10,7 @@
 #ifndef D3DMATRIX_DEFINED
 typedef struct _D3DMATRIX {
 	union {
-		struct {
+		struct stuff {
 			float        _11, _12, _13, _14;
 			float        _21, _22, _23, _24;
 			float        _31, _32, _33, _34;
@@ -70,14 +70,6 @@ public:
 
 	__forceinline D3DMATRIX* ToD3D()
 	{
-		/*static D3DMATRIX _d3d_actual;
-		for (int i = 0; i < 4; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
-				_d3d_actual.m[i][j] = _d3dm.m[j][i];
-			}
-		}*/
 		return &_d3dm;
 	}
 
@@ -109,6 +101,25 @@ public:
 		_matrix[3][1] = tmp[3][0] * rhs._matrix[0][1] + tmp[3][1] * rhs._matrix[1][1] + tmp[3][2] * rhs._matrix[2][1] + tmp[3][3] * rhs._matrix[3][1];
 		_matrix[3][2] = tmp[3][0] * rhs._matrix[0][2] + tmp[3][1] * rhs._matrix[1][2] + tmp[3][2] * rhs._matrix[2][2] + tmp[3][3] * rhs._matrix[3][2];
 		_matrix[3][3] = tmp[3][0] * rhs._matrix[0][3] + tmp[3][1] * rhs._matrix[1][3] + tmp[3][2] * rhs._matrix[2][3] + tmp[3][3] * rhs._matrix[3][3];
+	}
+
+	SlowMatrix4 GetTranposed() const
+	{
+		SlowMatrix4 toRet = *this;
+		toRet.Transpose();
+		return toRet;
+	}
+
+	void Transpose()
+	{
+		std::swap( _matrix[ 0 ][ 1 ], _matrix[ 1 ][ 0 ] );
+		std::swap( _matrix[ 0 ][ 2 ], _matrix[ 2 ][ 0 ] );
+		std::swap( _matrix[ 0 ][ 3 ], _matrix[ 3 ][ 0 ] );
+
+		std::swap( _matrix[ 1 ][ 2 ], _matrix[ 2 ][ 1 ] );
+		std::swap( _matrix[ 1 ][ 3 ], _matrix[ 3 ][ 1 ] );
+
+		std::swap( _matrix[ 2 ][ 3 ], _matrix[ 3 ][ 2 ] );
 	}
 
 	__forceinline void Add(SlowMatrix4& rhs)
@@ -445,6 +456,9 @@ public:
 	static const SlowVector3 NegativeUnitX;
 	static const SlowVector3 NegativeUnitY;
 	static const SlowVector3 NegativeUnitZ;
+	static const SlowVector3 Forward;
+	static const SlowVector3 Right;
+	static const SlowVector3 Up;
 };
 
 class SlowQuaternion

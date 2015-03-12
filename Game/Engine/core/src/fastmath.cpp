@@ -1,3 +1,4 @@
+#include <PrecompiledHeader.h>
 // FastMath.cpp defines statics for the fast math library
 #include "fastmath.h"
 
@@ -17,6 +18,12 @@ const FastVector3 FastVector3::NegativeUnitX(-1.0f, 0.0f, 0.0f);
 const FastVector3 FastVector3::NegativeUnitY(0.0f, -1.0f, 0.0f);
 const FastVector3 FastVector3::NegativeUnitZ(0.0f, 0.0f, -1.0f);
 
+//here is where we declare ourselves left handed:
+const FastVector3 FastVector3::Right( 1.0f, 0.0f, 0.0f );
+const FastVector3 FastVector3::Up( 0.0f, 1.0f, 0.0f );
+const FastVector3 FastVector3::Forward( 0.0f, 0.0f, 1.0f );
+
+
 const FastQuaternion FastQuaternion::Identity(0.0f, 0.0f, 0.0f, 1.0f);
 
 void FastMatrix4::CreateTranslation(const FastVector3& translation)
@@ -34,6 +41,7 @@ void FastMatrix4::CreateTranslation(const FastVector3& translation)
 	_rows[3] = _mm_setr_ps(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
+
 void FastMatrix4::CreateFromQuaternion(const FastQuaternion& q)
 {
 	DirectX::XMMATRIX result = DirectX::XMMatrixRotationQuaternion(q._data);
@@ -41,7 +49,7 @@ void FastMatrix4::CreateFromQuaternion(const FastQuaternion& q)
 	_rows[1] = result.r[1];
 	_rows[2] = result.r[2];
 	_rows[3] = result.r[3];
-	// Have to transpose b/c DirectXMath assumes row vectors
+	// Have to transpose b/c DirectXMath assumes row vectors ( multiplied on left side )
 	_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
 }
 
@@ -55,9 +63,10 @@ void FastMatrix4::CreateLookAt( const FastVector3& vEye, const FastVector3& vAt,
 	_rows[2] = result.r[2];
 	_rows[3] = result.r[3];
 
-	// Have to transpose b/c DirectXMath assumes row vectors
+	// Have to transpose b/c DirectXMath assumes row vectors ( multiplied on left side )
 	_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
 }
+
 
 void FastMatrix4::CreatePerspectiveFOV(float fFOVy, float fAspectRatio, float fNear, float fFar)
 {
