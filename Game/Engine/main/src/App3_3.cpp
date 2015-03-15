@@ -31,8 +31,8 @@ namespace ITP485
 
 	uint16_t squareIndices[] =
 	{
-		0, 1, 2,
-		2, 3, 0
+		2, 1, 0,
+		0, 3, 2
 	};
 
 	App3_3::App3_3()
