@@ -161,9 +161,12 @@ public:
 		_rows[3] = _mm_sub_ps(_rows[3], rhs._rows[3]);
 	}
 
-	// Transposes this, storing in this
+	// Returns the transpose of this
 	__forceinline void Transpose()
 	{
+		//FastMatrix4 temp = *this;
+		//_MM_TRANSPOSE4_PS(temp._rows[0], temp._rows[1], temp._rows[2], temp._rows[3]);
+		//return temp;
 		_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
 	}
 

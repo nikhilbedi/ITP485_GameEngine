@@ -85,12 +85,14 @@ namespace ITP485
 		cameraConstant.projectionViewMatrix.Transpose();
 
 		// Set up camera constant buffer
-		mPerCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(
-			&cameraConstant,
-			sizeof(cameraConstant),
-			EBF_ConstantBuffer,
-			ECPUAF_CanWrite,
-			EGBU_Dynamic);
+		GraphicsDriver::Get()->SetPerCameraConstantBuffer(
+			GraphicsDriver::Get()->CreateGraphicsBuffer(
+				&cameraConstant,
+				sizeof(cameraConstant),
+				EBF_ConstantBuffer,
+				ECPUAF_CanWrite,
+				EGBU_Dynamic)
+		);
 
 		// Set up object constant buffer
 		mPerObjectConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(
@@ -103,6 +105,7 @@ namespace ITP485
 
 	void App3_3::Update()
 	{
+		mCamera->UpdateConstants();
 	}
 
 	void App3_3::Render()
@@ -120,8 +123,8 @@ namespace ITP485
 		GraphicsDriver::Get()->SetVertexBuffer(mSquareVertexBuffer, 12); // size of each vertex
 		GraphicsDriver::Get()->SetIndexBuffer(mSquareIndexBuffer);
 
-		/* Draw Square */
-		GraphicsDriver::Get()->DrawIndexed(6, 0, 0);
+		/*Draw Square */
+		DrawSquare();
 
 		//present!
 		GraphicsDriver::Get()->Present();
@@ -137,7 +140,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPixelShader(mPixelShader);
 
 		/* Constants Setup */
-		GraphicsDriver::Get()->SetVSConstantBuffer(mPerCameraConstantBuffer, 0);
+		GraphicsDriver::Get()->SetVSConstantBuffer(GraphicsDriver::Get()->GetPerCameraConstantBuffer(), 0);
 		GraphicsDriver::Get()->SetVSConstantBuffer(mPerObjectConstantBuffer, 1);
 	}
 
@@ -148,7 +151,6 @@ namespace ITP485
 		objectConstantPtr->objectToWorldMatrix.CreateTranslation(Vector3(-1, 0, 1));
 		objectConstantPtr->objectToWorldMatrix.Transpose();
 		GraphicsDriver::Get()->UnmapBuffer(mPerObjectConstantBuffer);
-		GraphicsDriver::Get()->UpdateConstantBuffer(mPerObjectConstantBuffer, (void*)objectConstantPtr);
 		GraphicsDriver::Get()->Draw(3, 0); // how many vertices
 
 		// Create translation of triangle to the right
@@ -161,6 +163,13 @@ namespace ITP485
 
 	void App3_3::DrawSquare()
 	{
+		// Create translation
+		ObjectConstant* objectConstantPtr = (ObjectConstant*)GraphicsDriver::Get()->MapBuffer(mPerObjectConstantBuffer);
+		objectConstantPtr->objectToWorldMatrix.CreateTranslation(Vector3(0, 0, 1));
+		objectConstantPtr->objectToWorldMatrix.Transpose();
+		GraphicsDriver::Get()->UnmapBuffer(mPerObjectConstantBuffer);
 
+		/* Draw Square */
+		GraphicsDriver::Get()->DrawIndexed(6, 0, 0);
 	}
 }

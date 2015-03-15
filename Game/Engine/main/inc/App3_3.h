@@ -23,7 +23,6 @@ namespace ITP485
 		GraphicsBufferPtr   mSquareVertexBuffer;
 		GraphicsBufferPtr   mSquareIndexBuffer;
 
-		GraphicsBufferPtr	mPerCameraConstantBuffer;
 		GraphicsBufferPtr	mPerObjectConstantBuffer;
 
 		CameraPtr			mCamera;
