@@ -9,6 +9,9 @@ namespace ITP485
 		App3_3();
 		virtual void Update() override;
 		virtual void Render() override;
+		void DrawTriangles();
+		void DrawSquare();
+		void Setup();
 
 
 	private:

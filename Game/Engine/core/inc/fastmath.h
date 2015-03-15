@@ -161,6 +161,12 @@ public:
 		_rows[3] = _mm_sub_ps(_rows[3], rhs._rows[3]);
 	}
 
+	// Transposes this, storing in this
+	__forceinline void Transpose()
+	{
+		_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
+	}
+
 	// Given the passed in scale, constructs a Scale matrix
 	__forceinline void CreateScale(float scale)
 	{
