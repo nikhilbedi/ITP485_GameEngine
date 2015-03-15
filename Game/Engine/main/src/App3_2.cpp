@@ -56,7 +56,6 @@ namespace ITP485
 			EBF_ConstantBuffer,
 			ECPUAF_CanWrite,
 			EGBU_Dynamic);
-		//GraphicsDriver::Get()->SetPSConstantBuffer(mConstantBuffer, 0);
 	}
 
 
@@ -68,26 +67,20 @@ namespace ITP485
 		{
 			counter = 0;
 			colorSwitch++;
-			//GraphicsDriver::Get()->MapBuffer(mPixelShaderConstantBuffer);
+			MyConstants* c = (MyConstants*) GraphicsDriver::Get()->MapBuffer(mPixelShaderConstantBuffer);
 			switch (colorSwitch % 3)
 			{
 			case 0:
-				constants.color.Set(0.0f, 0.0f, 1.0f, 1.0f);	// Green
+				c->color.Set(0.0f, 0.0f, 1.0f, 1.0f);	// Green
 				break;
 			case 1:
-				constants.color.Set(1.0f, 1.0f, 0.0f, 1.0f);	// Purple
+				c->color.Set(1.0f, 1.0f, 0.0f, 1.0f);	// Purple
 				break;
 			case 2:
-				constants.color.Set(1.0f, 0.0f, 0.0f, 1.0f);	// Red
+				c->color.Set(1.0f, 0.0f, 0.0f, 1.0f);	// Red
 				break;
 			}
-			mPixelShaderConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(
-				&constants,
-				sizeof(constants),
-				EBF_ConstantBuffer,
-				ECPUAF_CanWrite,
-				EGBU_Dynamic);
-			//GraphicsDriver::Get()->UnmapBuffer(mPixelShaderConstantBuffer);
+			GraphicsDriver::Get()->UnmapBuffer(mPixelShaderConstantBuffer);
 		}
 	}
 
