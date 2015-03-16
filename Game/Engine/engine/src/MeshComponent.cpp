@@ -29,25 +29,34 @@ namespace ITP485
 		}
 	}
 
-	void MeshComponent::SetRotation(Quaternion inRotation) 
+	void MeshComponent::SetRotation(const Quaternion& inRotation)
 	{
-		if (inRotation.GetVectorX != 0)
-			mObjectToWorld.CreateRotationX(inRotation.GetScalar());
+		Matrix4 temp(Matrix4::Identity);
+		if (inRotation.GetVectorX() != 0)
+			temp.CreateRotationX(inRotation.GetScalar());
 
-		else if (inRotation.GetVectorX != 0)
-			mObjectToWorld.CreateRotationY(inRotation.GetScalar());
+		else if (inRotation.GetVectorY() != 0)
+			temp.CreateRotationY(inRotation.GetScalar());
 
 		else
-			mObjectToWorld.CreateRotationZ(inRotation.GetScalar());
+			temp.CreateRotationZ(inRotation.GetScalar());
+
+		mObjectToWorld.Multiply(temp);
 	}
 
-	void MeshComponent::SetScale(float inScale) 
+	void MeshComponent::SetTranslation(const Vector3& inTranslation)
 	{
-		mObjectToWorld.CreateScale(inScale); 
+		Matrix4 temp(Matrix4::Identity);
+		temp.CreateTranslation(inTranslation);
+		mObjectToWorld.Multiply(temp);
 	}
 
-	void MeshComponent::SetTranslation(Vector3 inTranslation) 
-	{ 
-		mObjectToWorld.CreateTranslation(inTranslation); 
+	void MeshComponent::SetScale(const float& inScale)
+	{
+		Matrix4 temp(Matrix4::Identity);
+		temp.CreateScale(inScale);
+		mObjectToWorld.Multiply(temp);
 	}
+
+
 }

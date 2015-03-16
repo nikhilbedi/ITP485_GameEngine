@@ -29,9 +29,9 @@ namespace ITP485
 		bool GetVisible() const { return mIsVisible; }
 		void SetVisible( bool bValue ) { mIsVisible = bValue; }
 
-		void SetRotation(Quaternion inRotation);
-		void SetTranslation(Vector3 inTranslation);
-		void SetScale(float inScale);
+		void SetRotation(const Quaternion& inRotation);
+		void SetTranslation(const Vector3& inTranslation);
+		void SetScale(const float& inScale);
 
 
 

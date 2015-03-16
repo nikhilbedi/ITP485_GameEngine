@@ -59,17 +59,15 @@ namespace ITP485
 			EGBU_Dynamic)
 		);
 
-		// Load mesh
-		MeshComponentPtr mMesh (new MeshComponent(MeshManager::Get().GetMesh("cube.itpmesh")));
-
 		// Load Game object
 		GameObjectPtr mGameObjectPtr(new GameObject());
+		MeshComponentPtr mMesh(new MeshComponent(MeshManager::Get().GetMesh("cube.itpmesh")));
 		mGameObjectPtr->AddComponent(mMesh);
 		GameWorld::Get().AddToWorld(mGameObjectPtr);
 
 		// Add secondary object
 		auto offsetCube = GameObjectPtr(new GameObject());
-		auto offsetMeshComponent = mMesh;//MeshComponentPtr(new MeshComponent(mMesh));
+		MeshComponentPtr offsetMeshComponent(new MeshComponent(MeshManager::Get().GetMesh("cube.itpmesh")));
 		offsetMeshComponent->SetRotation(Quaternion(Vector3::UnitZ, Pi * 0.25f));
 		offsetMeshComponent->SetScale(0.5f);
 		offsetMeshComponent->SetTranslation(Vector3(0.f, 0.25f, 0.f));
@@ -93,7 +91,10 @@ namespace ITP485
 		GraphicsDriver::Get()->Present();
 	}
 
-	App3_5::~App3_5() {}
+	App3_5::~App3_5() 
+	{
+		GameWorld::Get().GetSceneGraph().Clear();
+	}
 
 	void App3_5::Setup()
 	{
