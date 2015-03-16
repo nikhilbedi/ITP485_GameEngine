@@ -11,6 +11,7 @@ namespace ITP485
 		~App3_5();
 		virtual void Update() override;
 		virtual void Render() override;
+		void Setup();
 
 
 	private:

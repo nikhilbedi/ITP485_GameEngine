@@ -17,7 +17,14 @@ namespace ITP485
 	{
 		if( mIsVisible )
 		{
-			//lab 3		
+			//lab 3
+			// Assign affine transformations
+			Matrix4* objectToWorldMatrix = (Matrix4*)GraphicsDriver::Get()->MapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
+			*objectToWorldMatrix = mObjectToWorld;
+			GraphicsDriver::Get()->UnmapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
+
+			// render
+			mMesh->Render();
 		}
 	}
 
