@@ -9,7 +9,14 @@ namespace ITP485
 		( void ) inMeshName;
 		//lab 3
 		//implement...don't forget that the meshes are in the Meshes folder. That means cube.itpmesh can be found at the path Meshes/cube.itpmesh
-		return nullptr;
+		if (mMeshMap.find(inMeshName) != mMeshMap.end())
+		{
+			return mMeshMap[inMeshName];
+		}
+		string fileName = "Meshes\\" + inMeshName;
+		MeshPtr meshPtr = ITPMeshImporter::ImportMesh(fileName.c_str());
+		mMeshMap[inMeshName] = meshPtr;
+		return meshPtr;
 	}
 
 	void MeshManager::Clear()

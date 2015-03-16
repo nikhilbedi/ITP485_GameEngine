@@ -15,6 +15,12 @@ namespace ITP485
 
 		string mName;
 		//lab 3 you'll need to add some member variables...
+		InputLayoutPtr		mInputLayoutPtr;
+		GraphicsBufferPtr   mVertexBuffer;
+		GraphicsBufferPtr   mIndexBuffer;
+		int					mVertexCount;
+		int					mVertexSize;
+		int					mIndexCount;
 
 	};
 	typedef shared_ptr< Mesh > MeshPtr;
