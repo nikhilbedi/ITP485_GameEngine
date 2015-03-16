@@ -23,12 +23,17 @@ namespace ITP485
 
 		void AddComponent( MeshComponentPtr inMeshComponent );
 
+		MeshComponentPtr GetComponent();
+
 		// Spawn this object based on ObjectName
 		virtual void LoadFromIniSection( const string& inObjectName, const minIni& inIniSection );
 
 	protected:
 		// We use std::string for ObjectName because of minINI
 		string mObjectName;
+
+	private:
+		MeshComponentPtr mMeshComponentPtr;
 
 	};
 	

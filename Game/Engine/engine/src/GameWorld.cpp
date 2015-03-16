@@ -75,6 +75,8 @@ namespace ITP485
 	{
 		//lab 3
 		//implement
+		mGameObjects.insert(inGameObject);
+		mSceneGraph.AddComponent(inGameObject->GetComponent());
 	}
 
 	void GameWorld::SpawnGameObject(const std::string& inObjectName, const minIni& inIni)

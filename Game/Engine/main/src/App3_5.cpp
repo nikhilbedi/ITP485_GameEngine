@@ -7,7 +7,6 @@
 
 namespace ITP485
 {
-	MeshComponent* mMesh;
 	App3_5::App3_5()
 	{
 		//copy from App3_4 and modify as necessary
@@ -61,7 +60,21 @@ namespace ITP485
 		);
 
 		// Load mesh
-		mMesh = new MeshComponent(MeshManager::Get().GetMesh("cube.itpmesh"));
+		MeshComponentPtr mMesh (new MeshComponent(MeshManager::Get().GetMesh("cube.itpmesh")));
+
+		// Load Game object
+		GameObjectPtr mGameObjectPtr(new GameObject());
+		mGameObjectPtr->AddComponent(mMesh);
+		GameWorld::Get().AddToWorld(mGameObjectPtr);
+
+		// Add secondary object
+		auto offsetCube = GameObjectPtr(new GameObject());
+		auto offsetMeshComponent = mMesh;//MeshComponentPtr(new MeshComponent(mMesh));
+		offsetMeshComponent->SetRotation(Quaternion(Vector3::UnitZ, Pi * 0.25f));
+		offsetMeshComponent->SetScale(0.5f);
+		offsetMeshComponent->SetTranslation(Vector3(0.f, 0.25f, 0.f));
+		offsetCube->AddComponent(offsetMeshComponent);
+		GameWorld::Get().AddToWorld(offsetCube);
 	}
 
 	void App3_5::Update()
@@ -74,7 +87,8 @@ namespace ITP485
 		//implement from scratch.  You'll need some of the calls we use in App3_4::Render, but the rendering should be done in a new way 
 		Setup();
 
-		mMesh->Render();
+		//mMesh->Render();
+		GameWorld::Get().GetSceneGraph().Render();
 
 		GraphicsDriver::Get()->Present();
 	}

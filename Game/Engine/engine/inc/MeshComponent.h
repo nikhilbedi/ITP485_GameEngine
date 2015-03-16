@@ -29,9 +29,13 @@ namespace ITP485
 		bool GetVisible() const { return mIsVisible; }
 		void SetVisible( bool bValue ) { mIsVisible = bValue; }
 
+		void SetRotation(Quaternion inRotation);
+		void SetTranslation(Vector3 inTranslation);
+		void SetScale(float inScale);
+
+
 
 	private:
-
 
 		// Disallow default constructor
 		MeshComponent() { }
@@ -44,8 +48,6 @@ namespace ITP485
 
 		// Whether or not this guy is visible
 		bool mIsVisible;
-
-
 
 
 	};

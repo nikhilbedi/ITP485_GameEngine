@@ -18,6 +18,13 @@ namespace ITP485
 	{
 		//lab 3 
 		//implement
+		Dbg_Assert(mMeshComponentPtr == NULL, "Cannot have two mesh components at a single time");
+		mMeshComponentPtr = inMeshComponent;
+	}
+
+	MeshComponentPtr GameObject::GetComponent()
+	{
+		return mMeshComponentPtr;
 	}
 
 	// Spawn this object based on ObjectName
