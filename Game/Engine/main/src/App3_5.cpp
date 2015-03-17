@@ -78,6 +78,7 @@ namespace ITP485
 	void App3_5::Update()
 	{
 		//copy from App3_4 and modify as necessary
+		mCamera->UpdateConstants();
 	}
 
 	void App3_5::Render()
