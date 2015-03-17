@@ -43,12 +43,16 @@ namespace ITP485
 		// World Transform Matrix
 		Matrix4 mObjectToWorld;
 
+		// Transformation variables
+		float mScale;
+		Vector3 mTranslation;
+		Quaternion mRotation;
+
 		// Our particular model information
 		MeshPtr mMesh;
 
 		// Whether or not this guy is visible
 		bool mIsVisible;
-
 
 	};
 	typedef shared_ptr< MeshComponent > MeshComponentPtr;

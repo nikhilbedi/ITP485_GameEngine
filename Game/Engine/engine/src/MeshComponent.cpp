@@ -8,6 +8,9 @@ namespace ITP485
 	mMesh( inMesh )
 	{
 		//lab 3
+		mScale = 1;
+		mTranslation = Vector3(0, 0, 0);
+		mRotation = Quaternion(0, 0, 0, 0);
 	}
 
 
@@ -20,7 +23,19 @@ namespace ITP485
 			//lab 3
 			// Assign affine transformations
 			Matrix4* objectToWorldMatrix = (Matrix4*)GraphicsDriver::Get()->MapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
-			*objectToWorldMatrix = mObjectToWorld;
+			Matrix4 tempTranslation(Matrix4::Identity);
+			Matrix4 tempRotation(Matrix4::Identity);
+			Matrix4 tempScale(Matrix4::Identity);
+			
+			// Create the objectToWorldMatrix
+			tempTranslation.CreateTranslation(mTranslation);
+			tempRotation.CreateFromQuaternion(mRotation);
+			tempScale.CreateScale(mScale);
+
+			tempTranslation.Multiply(tempRotation);
+			tempTranslation.Multiply(tempScale);
+
+			*objectToWorldMatrix = tempTranslation;
 			objectToWorldMatrix->Transpose();
 			GraphicsDriver::Get()->UnmapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
 
@@ -31,31 +46,17 @@ namespace ITP485
 
 	void MeshComponent::SetRotation(const Quaternion& inRotation)
 	{
-		Matrix4 temp(Matrix4::Identity);
-		if (inRotation.GetVectorX() != 0)
-			temp.CreateRotationX(inRotation.GetScalar());
-
-		else if (inRotation.GetVectorY() != 0)
-			temp.CreateRotationY(inRotation.GetScalar());
-
-		else
-			temp.CreateRotationZ(inRotation.GetScalar());
-
-		mObjectToWorld.Multiply(temp);
+		mRotation = inRotation;
 	}
 
 	void MeshComponent::SetTranslation(const Vector3& inTranslation)
 	{
-		Matrix4 temp(Matrix4::Identity);
-		temp.CreateTranslation(inTranslation);
-		mObjectToWorld.Multiply(temp);
+		mTranslation = inTranslation;
 	}
 
 	void MeshComponent::SetScale(const float& inScale)
 	{
-		Matrix4 temp(Matrix4::Identity);
-		temp.CreateScale(inScale);
-		mObjectToWorld.Multiply(temp);
+		mScale = inScale;
 	}
 
 
