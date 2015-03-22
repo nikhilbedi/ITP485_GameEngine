@@ -5,6 +5,7 @@
 
 #include "Spinner.h"
 #include "Roller.h"
+#include <MeshManager.h>
 
 using namespace DirectX;
 
@@ -22,6 +23,7 @@ namespace ITP485
 
 	App4_2::App4_2()
 	{
+		MeshManager::Get().Clear();
 		//lab 4
 		//copy from App4_1, but change the loaded level to "Levels\\Lab4_2Level.ini"
 		//update to create new necessary objects and set new necessary state
