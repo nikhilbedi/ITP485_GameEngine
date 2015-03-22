@@ -9,14 +9,6 @@
 
 using namespace DirectX;
 
-/*
-to learn in 4_1:
-textures, loading texture, sampler state, hlsl,
-depth buffer,
-ambient light,
-lighting
-don't forget you'll need the camera buffer to be set in the pixel shader now...
-*/
 
 namespace ITP485
 {
