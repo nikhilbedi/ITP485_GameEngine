@@ -42,7 +42,7 @@ namespace ITP485
 			float rotationY = 0;
 			float rotationZ = 0;
 			sscanf(rotationString.c_str(), "(%f, %f, %f)", &rotationX, &rotationY, &rotationZ);
-			rotation.Set(1.0f, rotationX, rotationY, rotationZ);	
+			rotation = DirectX::XMQuaternionRotationRollPitchYaw(rotationX, rotationY, rotationZ);
 
 			// Obtain Field of View
 			string fovyString = ini.gets("Camera", "FOVy", "1.04719755").c_str();

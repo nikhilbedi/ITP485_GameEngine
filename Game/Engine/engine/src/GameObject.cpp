@@ -63,7 +63,7 @@ namespace ITP485
 		float rotationY = 0;
 		float rotationZ = 0;
 		sscanf(rotationString.c_str(), "(%f, %f, %f)", &rotationX, &rotationY, &rotationZ);
-		rotation.Set(rotationX, rotationY, rotationZ, 1.0f);	// TODO the yaw, pitch, roll should not be created this way. Incorrect
+		rotation = DirectX::XMQuaternionRotationRollPitchYaw(rotationX, rotationY, rotationZ);
 
 		// Obtain scale
 		string scaleString = inIni.gets(mObjectName, "Scale", "1.0").c_str();
@@ -78,7 +78,11 @@ namespace ITP485
 		AddComponent(mesh);
 	}
 
-
+	GameObjectPtr GameObject::Construct(string& inClassName)
+	{
+		return GameObjectPtr();
+		//return GameClassRegistry::Create(inClassName);
+	}
 
 
 

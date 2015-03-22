@@ -14,6 +14,7 @@ namespace ITP485
 
 		//lab 3
 		//add a static factory function named Construct which we can use to register with GameClassRegistry
+		static GameObjectPtr Construct(string& inClassName);
 
 		// Sets component pointers to NULL
 		GameObject();

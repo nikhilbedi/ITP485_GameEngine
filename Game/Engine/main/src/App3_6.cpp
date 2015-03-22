@@ -39,7 +39,9 @@ namespace ITP485
 		mCamera = CameraPtr(new Camera(Vector3(0, 0, -2), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
 
 		// Load Game Level
+		//Matrix4 temp = mCamera->GetProjectionViewMatrix();
 		GameWorld::Get().LoadLevel("Levels\\Lab3Level.ini", mCamera);
+		//temp = mCamera->GetProjectionViewMatrix();
 
 		// Retrieve necessary camera variables
 		Matrix4 projectionViewMatrix;
