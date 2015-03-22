@@ -45,9 +45,6 @@ namespace ITP485
 		MeshComponentPtr mesh(new MeshComponent(
 			MeshManager::Get().
 			GetMesh(inIni.gets(inObjectName, "Mesh", defaultMeshFileName))));
-
-		// Obtain class of gameobject
-		//Class = GameObject
 		
 		// Obtain position
 		string positionString = inIni.gets(mObjectName, "Position", "(0,0,0)").c_str();
@@ -78,10 +75,10 @@ namespace ITP485
 		AddComponent(mesh);
 	}
 
-	GameObjectPtr GameObject::Construct(string& inClassName)
+	GameObjectPtr GameObject::Construct()
 	{
-		return GameObjectPtr();
-		//return GameClassRegistry::Create(inClassName);
+		GameObjectPtr ptr( new GameObject() );
+		return ptr;
 	}
 
 

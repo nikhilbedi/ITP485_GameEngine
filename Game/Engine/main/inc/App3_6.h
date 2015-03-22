@@ -18,6 +18,7 @@ namespace ITP485
 	private:
 
 		//lab 3 add necessary private functions
+		void RegisterGameClasses();
 
 		VertexShaderPtr		mVertexShader;
 		PixelShaderPtr      mPixelShader;

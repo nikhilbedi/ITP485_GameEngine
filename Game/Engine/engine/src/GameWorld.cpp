@@ -130,7 +130,10 @@ namespace ITP485
 		( void ) inObjectName; ( void ) inIni;
 		//lab 3
 		//implement
-		GameObjectPtr gameObjectPtr(new GameObject());
+		// Obtain class of gameobject
+		string className = inIni.gets(inObjectName, "Class", "GameObject").c_str();
+
+		GameObjectPtr gameObjectPtr = GameClassRegistry::Get().Create(className);
 		gameObjectPtr->LoadFromIniSection(inObjectName, inIni);
 		GameWorld::Get().AddToWorld(gameObjectPtr);
 	}

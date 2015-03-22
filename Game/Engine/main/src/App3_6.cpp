@@ -35,6 +35,9 @@ namespace ITP485
 			GraphicsDriver::Get()->CreateInputLayout(inputLayoutElements, 3, compiledVertexShader);	// first parameter is an array of inputLayout elements!
 		InputLayoutCache::Get().RegisterLayout("pnt", inputLayoutPtr);
 
+		// Register
+		RegisterGameClasses();
+
 		// Set up Camera
 		mCamera = CameraPtr(new Camera(Vector3(0, 0, -2), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
 
@@ -110,4 +113,13 @@ namespace ITP485
 
 	//lab 3
 	//Add App3_6::RegisterGameClasses
+	void App3_6::RegisterGameClasses()
+	{
+		string gameObjectString = "GameObject";
+		string spinnerString = "Spinner";
+		string rollerString = "Roller";
+		GameClassRegistry::Get().Register(gameObjectString, GameObject::Construct);
+		GameClassRegistry::Get().Register(spinnerString, Spinner::Construct);
+		GameClassRegistry::Get().Register(rollerString, Roller::Construct);
+	}
 }

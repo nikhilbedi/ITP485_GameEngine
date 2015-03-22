@@ -86,7 +86,6 @@ namespace ITP485
 		//implement from scratch.  You'll need some of the calls we use in App3_4::Render, but the rendering should be done in a new way 
 		Setup();
 
-		//mMesh->Render();
 		GameWorld::Get().GetSceneGraph().Render();
 
 		GraphicsDriver::Get()->Present();

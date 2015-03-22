@@ -3,7 +3,7 @@
 namespace ITP485
 {
 	//lab 3 implement, adding necessary params
-	/*void GameClassRegistry::Clear()
+	void GameClassRegistry::Clear()
 	{
 		mGameObjectFactory.clear();
 	}
@@ -11,7 +11,7 @@ namespace ITP485
 	//lab 3 implement, adding necessary params
 	void GameClassRegistry::Register( string& inClassName, FactoryFunc inFactoryFunction )
 	{
-		Dbg_Assert(mGameObjectFactory.find(inClassName) != mGameObjectFactory.end(),
+		Dbg_Assert(mGameObjectFactory.find(inClassName) == mGameObjectFactory.end(),
 			"The class name has already been mapped");
 		mGameObjectFactory[inClassName] = inFactoryFunction;	// TODO change the way you insert, as this is a method to override values if the key already exists
 	}
@@ -19,7 +19,13 @@ namespace ITP485
 	//lab 3 implement, adding necessary params
 	GameObjectPtr GameClassRegistry::Create(string& inClassName)
 	{
-		return GameObjectPtr (mGameObjectFactory[inClassName]);
-	}*/
+		// todo check if valid
+		if (mGameObjectFactory.find(inClassName) != mGameObjectFactory.end())
+		{
+			GameObjectPtr ptr( mGameObjectFactory[inClassName]() );
+			return ptr;
+		}
+		return NULL;
+	}
 
 }
