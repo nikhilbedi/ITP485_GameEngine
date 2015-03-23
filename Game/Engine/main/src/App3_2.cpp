@@ -62,8 +62,8 @@ namespace ITP485
 	void App3_2::Update()
 	{
 		//change color once per second, green, purple, red, repeat
-		counter += Timing::Get().GetTime();
-		if (counter > 10000.0f)
+		counter += Timing::Get().GetDeltaTime();
+		if (counter > 1.0f)
 		{
 			counter = 0;
 			colorSwitch++;

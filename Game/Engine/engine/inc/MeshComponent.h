@@ -30,6 +30,7 @@ namespace ITP485
 		void SetVisible( bool bValue ) { mIsVisible = bValue; }
 
 		void SetRotation(const Quaternion& inRotation);
+		Quaternion GetRotation();
 		void SetTranslation(const Vector3& inTranslation);
 		void SetScale(const float& inScale);
 

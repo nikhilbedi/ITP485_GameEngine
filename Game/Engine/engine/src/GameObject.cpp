@@ -81,6 +81,9 @@ namespace ITP485
 		return ptr;
 	}
 
+	void GameObject::Update()
+	{
 
+	}
 
 }

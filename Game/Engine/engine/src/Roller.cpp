@@ -12,4 +12,13 @@ namespace ITP485
 		return ptr;
 	}
 
+	void Roller::Update()
+	{	
+		float f = Pi / 2 * Timing::Get().GetDeltaTime();
+		Quaternion newRotation = DirectX::XMQuaternionRotationRollPitchYaw(0, 0, f);
+		Quaternion oldRotation = GetComponent()->GetRotation();
+		oldRotation.Multiply(newRotation);
+		GetComponent()->SetRotation(oldRotation);
+
+	}
 }

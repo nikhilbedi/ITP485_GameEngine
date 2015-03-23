@@ -29,6 +29,9 @@ namespace ITP485
 		// Spawn this object based on ObjectName
 		virtual void LoadFromIniSection( const string& inObjectName, const minIni& inIniSection );
 
+		// Update for objects
+		virtual void Update();
+
 	protected:
 		// We use std::string for ObjectName because of minINI
 		string mObjectName;

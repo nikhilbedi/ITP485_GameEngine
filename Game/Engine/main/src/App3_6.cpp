@@ -79,6 +79,8 @@ namespace ITP485
 	{
 		//copy from App3_5 and modify as necessary
 		mCamera->UpdateConstants();
+
+		GameWorld::Get().Update();
 	}
 
 	void App3_6::Render()
@@ -95,6 +97,7 @@ namespace ITP485
 	App3_6::~App3_6()
 	{
 		GameWorld::Get().GetSceneGraph().Clear();
+		GameClassRegistry::Get().Clear();
 	}
 
 	void App3_6::Setup()

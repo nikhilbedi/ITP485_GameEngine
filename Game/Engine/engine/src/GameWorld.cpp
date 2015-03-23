@@ -138,4 +138,11 @@ namespace ITP485
 		GameWorld::Get().AddToWorld(gameObjectPtr);
 	}
 
+	void GameWorld::Update()
+	{
+		for (auto object : mGameObjects)
+		{
+			object->Update();
+		}
+	}
 }

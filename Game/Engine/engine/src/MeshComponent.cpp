@@ -59,5 +59,8 @@ namespace ITP485
 		mScale = inScale;
 	}
 
-
+	Quaternion MeshComponent::GetRotation()
+	{
+		return mRotation;
+	}
 }

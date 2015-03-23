@@ -11,4 +11,13 @@ namespace ITP485
 		GameObjectPtr ptr(new Spinner());
 		return ptr;
 	}
+
+	void Spinner::Update()
+	{
+		float f = Pi / 2 * Timing::Get().GetDeltaTime();
+		Quaternion newRotation = DirectX::XMQuaternionRotationRollPitchYaw(0, f, 0);
+		Quaternion oldRotation = GetComponent()->GetRotation();
+		oldRotation.Multiply(newRotation);
+		GetComponent()->SetRotation(oldRotation);
+	}
 }

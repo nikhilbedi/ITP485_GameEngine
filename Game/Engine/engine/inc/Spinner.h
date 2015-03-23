@@ -10,5 +10,11 @@ namespace ITP485
 
 		//lab 3
 		//add and implement spinning functionality
+		virtual void Update() override;
+
+	private:
+		float mAngle = 0;
+		float counter = 0;
+		FastQuaternion rotation;
 	};
 }

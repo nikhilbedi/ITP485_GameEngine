@@ -21,6 +21,8 @@ namespace ITP485
 		// Load in the level file
 		// Returns true if succeeded
 		bool LoadLevel( const char* inFileName, CameraPtr inCamera );
+
+		void Update();
 	
 		SceneGraph& GetSceneGraph()						{ return mSceneGraph; }
 		const LightingConstants& GetLightingConstants()	{ return mLightingConstants; }
