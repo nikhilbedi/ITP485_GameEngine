@@ -5,23 +5,17 @@
 
 #include "Spinner.h"
 #include "Roller.h"
+#include <MeshManager.h>
 
 using namespace DirectX;
 
-/*
-to learn in 4_1:
-textures, loading texture, sampler state, hlsl,
-depth buffer,
-ambient light,
-lighting
-don't forget you'll need the camera buffer to be set in the pixel shader now...
-*/
 
 namespace ITP485
 {
 
 	App4_2::App4_2()
 	{
+		MeshManager::Get().Clear();
 		//lab 4
 		//copy from App4_1, but change the loaded level to "Levels\\Lab4_2Level.ini"
 		//update to create new necessary objects and set new necessary state

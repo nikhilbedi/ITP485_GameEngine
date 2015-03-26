@@ -193,21 +193,7 @@ namespace
 		return RenderTargetPtr( toRet, AutoReleaseD3D );
 	}
 
-	void SetupRasterState()
-	{
-		//let's set CCW as the front face, since right hand rule is nice...
-		D3D11_RASTERIZER_DESC rastDesc;
-		ZeroMemory( &rastDesc, sizeof( rastDesc ) );
 
-		//lab4 change this
-		rastDesc.FillMode = D3D11_FILL_WIREFRAME;
-		
-		rastDesc.CullMode = D3D11_CULL_BACK;
-		rastDesc.FrontCounterClockwise = false;
-
-		g_pd3dDevice->CreateRasterizerState( &rastDesc, &g_RasterizerState );
-		g_pImmediateContext->RSSetState( g_RasterizerState );
-	}
 
 }
 
@@ -240,7 +226,7 @@ mCurrentDepthStencil( nullptr )
 	mWindowHeight = height;
 	SetViewport( 0.f, 0.f, static_cast< float >( width ), static_cast< float >( height ) );
 
-	SetupRasterState();
+	SetRasterizerState( CreateRasterizerState( EFM_Wireframe ) );
 
 	SetPrimitiveTopology( D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
@@ -364,14 +350,14 @@ InputLayoutPtr GraphicsDriver::CreateInputLayout( const InputLayoutElement* inEl
 	return InputLayoutPtr( toRet, AutoReleaseD3D );
 }
 
-SamplerStatePtr GraphicsDriver::CreateSamplerState( D3D11_FILTER inFilter, D3D11_TEXTURE_ADDRESS_MODE inUMode, D3D11_TEXTURE_ADDRESS_MODE inVMode )
+SamplerStatePtr GraphicsDriver::CreateSamplerState()
 {
 	// Create the sample state
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory( &sampDesc, sizeof( sampDesc ) );
-	sampDesc.Filter = inFilter;
-	sampDesc.AddressU = inUMode;
-	sampDesc.AddressV = inVMode;
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sampDesc.MinLOD = 0;
@@ -431,20 +417,11 @@ void GraphicsDriver::SetPSTexture( TexturePtr inTexture, int inStartSlot )
 	g_pImmediateContext->PSSetShaderResources( inStartSlot, 1, &texture );
 }
 
-void GraphicsDriver::SetDepthStencilState( DepthStencilStatePtr inDepthStencilState, uint32_t inStencilRef )
+void GraphicsDriver::SetDepthStencilState( DepthStencilStatePtr inDepthStencilState )
 {
-	g_pImmediateContext->OMSetDepthStencilState( inDepthStencilState.get(), inStencilRef );
+	g_pImmediateContext->OMSetDepthStencilState( inDepthStencilState.get(), 1 );
 }
 
-void GraphicsDriver::UpdateConstantBuffer( GraphicsBufferPtr inBuffer, void* inNewBufferData )
-{
-	//g_pImmediateContext->UpdateSubresource( inBuffer.get(), 0, nullptr, inNewBufferData, 0, 0 );
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	auto buffer = inBuffer.get();
-	g_pImmediateContext->Map( buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped );
-	memcpy( mapped.pData, inNewBufferData, mapped.DepthPitch );
-	g_pImmediateContext->Unmap( buffer, 0 );
-}
 
 void* GraphicsDriver::MapBuffer( GraphicsBufferPtr inBuffer )
 {
@@ -525,14 +502,14 @@ DepthStencilPtr GraphicsDriver::CreateDepthStencil( int inWidth, int inHeight )
 	return DepthStencilPtr( toRet, AutoReleaseD3D );
 }
 
-DepthStencilStatePtr GraphicsDriver::CreateDepthStencilState( bool inDepthTestEnable, D3D11_DEPTH_WRITE_MASK inDepthWriteMask, D3D11_COMPARISON_FUNC inDepthComparisonFunction )
+DepthStencilStatePtr GraphicsDriver::CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction )
 {
 	D3D11_DEPTH_STENCIL_DESC dsDesc;
 
 	// Depth test parameters
 	dsDesc.DepthEnable = inDepthTestEnable;
-	dsDesc.DepthWriteMask = inDepthWriteMask;
-	dsDesc.DepthFunc = inDepthComparisonFunction;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = static_cast< D3D11_COMPARISON_FUNC >( inDepthComparisonFunction );
 
 	// Stencil test parameters
 	dsDesc.StencilEnable = false;
@@ -601,10 +578,10 @@ void GraphicsDriver::ClearRenderTarget( RenderTargetPtr inRenderTarget, const XM
 	g_pImmediateContext->ClearRenderTargetView( inRenderTarget.get(), inColor );
 }
 
-void GraphicsDriver::ClearDepthStencil( DepthStencilPtr inDepthStencil, uint32_t inClearFlags, float inDepth, uint8_t inStencil )
+void GraphicsDriver::ClearDepthStencil( DepthStencilPtr inDepthStencil, float inDepth )
 {
 	// Clear the back buffer 
-	g_pImmediateContext->ClearDepthStencilView( inDepthStencil.get(), inClearFlags, inDepth, inStencil );
+	g_pImmediateContext->ClearDepthStencilView( inDepthStencil.get(), D3D11_CLEAR_DEPTH, inDepth, 0 );
 }
 
 
@@ -635,4 +612,26 @@ void GraphicsDriver::Present()
 }
 
 
+RasterizerStatePtr GraphicsDriver::CreateRasterizerState( EFillMode inFillMode )
+{
+	//let's set CCW as the front face, since right hand rule is nice...
+	D3D11_RASTERIZER_DESC rastDesc;
+	ZeroMemory( &rastDesc, sizeof( rastDesc ) );
 
+	//lab3
+	rastDesc.FillMode = static_cast< D3D11_FILL_MODE >( inFillMode );
+
+	rastDesc.CullMode = D3D11_CULL_BACK;
+	rastDesc.FrontCounterClockwise = false;
+
+	ID3D11RasterizerState* toRet;
+	auto hr = g_pd3dDevice->CreateRasterizerState( &rastDesc, &toRet );
+	Dbg_Assert( hr == S_OK, "Problem Creating Rasterizer State" );
+
+	return RasterizerStatePtr( toRet, AutoReleaseD3D );
+}
+
+void GraphicsDriver::SetRasterizerState( RasterizerStatePtr inRasterizerState )
+{
+	g_pImmediateContext->RSSetState( inRasterizerState.get() );
+}

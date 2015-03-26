@@ -36,6 +36,24 @@ namespace ITP485
 		EGF_R8G8B8A8_UNorm = DXGI_FORMAT_R8G8B8A8_UNORM,
 	};
 
+	enum EFillMode
+	{
+		EFM_Wireframe = D3D11_FILL_WIREFRAME,
+		EFM_Solid = D3D11_FILL_SOLID,
+	};
+
+	enum EComparisonFunc
+	{
+		ECF_Never = D3D11_COMPARISON_NEVER,
+		ECF_Less = D3D11_COMPARISON_LESS,
+		ECF_Equal = D3D11_COMPARISON_EQUAL,
+		ECF_LessEqual = D3D11_COMPARISON_LESS_EQUAL,
+		ECF_Greater = D3D11_COMPARISON_GREATER,
+		ECF_NotEqual = D3D11_COMPARISON_NOT_EQUAL,
+		ECF_GreaterEqual = D3D11_COMPARISON_GREATER_EQUAL,
+		ECF_Always = D3D11_COMPARISON_ALWAYS,
+	};
+
 	struct InputLayoutElement : D3D11_INPUT_ELEMENT_DESC
 	{
 		InputLayoutElement( const char* inSemanticName, uint32_t inSemanticIndex, EGFormat inFormat, uint32_t inByteOffset ) 
@@ -59,7 +77,8 @@ namespace ITP485
 	typedef shared_ptr< ID3D11SamplerState >		SamplerStatePtr;
 	typedef shared_ptr< ID3D11ShaderResourceView >	TexturePtr;
 	typedef shared_ptr< ID3D11DepthStencilState >	DepthStencilStatePtr;
-	
+	typedef shared_ptr< ID3D11RasterizerState >		RasterizerStatePtr;
+
 
 	class GraphicsDriver 
 	{
@@ -81,10 +100,11 @@ namespace ITP485
 		PixelShaderPtr CreatePixelShader( const std::vector< char >& inCompiledShaderCode );
 		InputLayoutPtr CreateInputLayout( const InputLayoutElement* inElements, int inNumElements, const vector< char >& inCompiledVertexShader );
 		GraphicsBufferPtr CreateGraphicsBuffer( const void* inRawData, int inRawDataSize, int inBindFlags, int inCPUAccessFlags, EGraphicsBufferUsage inUsage );
-		SamplerStatePtr CreateSamplerState( D3D11_FILTER inFilter, D3D11_TEXTURE_ADDRESS_MODE inUMode, D3D11_TEXTURE_ADDRESS_MODE inVMode );
+		SamplerStatePtr CreateSamplerState();
 		TexturePtr CreateTextureFromFile( const wchar_t* inFileName );
 		DepthStencilPtr CreateDepthStencil( int inWidth, int inHeight );
-		DepthStencilStatePtr CreateDepthStencilState( bool inDepthTestEnable, D3D11_DEPTH_WRITE_MASK inDepthWriteMask, D3D11_COMPARISON_FUNC inDepthComparisonFunction );
+		DepthStencilStatePtr CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction );
+		RasterizerStatePtr CreateRasterizerState( EFillMode inFillMode );
 
 		void SetRenderTarget( RenderTargetPtr inRenderTarget );
 		void SetDepthStencil( DepthStencilPtr inDepthStencil );
@@ -99,9 +119,8 @@ namespace ITP485
 		void SetPSConstantBuffer( GraphicsBufferPtr inBuffer, int inStartSlot );
 		void SetPSSamplerState( SamplerStatePtr inSamplerState, int inStartSlot );
 		void SetPSTexture( TexturePtr inTexture, int inStartSlot );
-		void SetDepthStencilState( DepthStencilStatePtr inDepthStencilState, uint32_t inStencilRef );
-
-		void UpdateConstantBuffer( GraphicsBufferPtr inBuffer, void* inData );
+		void SetDepthStencilState( DepthStencilStatePtr inDepthStencilState );
+		void SetRasterizerState( RasterizerStatePtr inRasterizerStatePtr );
 
 		void* MapBuffer( GraphicsBufferPtr inBuffer );
 		void UnmapBuffer( GraphicsBufferPtr inBuffer );
@@ -115,7 +134,7 @@ namespace ITP485
 
 		void ClearBackBuffer();
 		void ClearRenderTarget( RenderTargetPtr inRenderTarget, const DirectX::XMVECTORF32& inColor );
-		void ClearDepthStencil( DepthStencilPtr inDepthStencil, uint32_t inClearFlags, float inDepth, uint8_t inStencil );
+		void ClearDepthStencil( DepthStencilPtr inDepthStencil, float inDepth );
 		void Draw( int inVertexCount, int inStartVertexIndex );
 		void DrawIndexed( int inIndexCount, int inStartIndexLocation, int inBaseVertexLocation );
 		void Present();
