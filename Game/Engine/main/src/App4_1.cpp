@@ -28,12 +28,12 @@ namespace ITP485
 		//update to create new necessary objects and set new necessary state
 		//let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
 		vector< char > compiledVertexShader;
-		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App3_3.hlsl", "VS", "vs_4_0", compiledVertexShader);
+		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App4_1.hlsl", "VS", "vs_4_0", compiledVertexShader);
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader(compiledVertexShader);
 
 		//now load up the pixel shader named PS
 		vector< char > compiledPixelShader;
-		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App3_3.hlsl", "PS", "ps_4_0", compiledPixelShader);
+		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App4_1.hlsl", "PS", "ps_4_0", compiledPixelShader);
 		mPixelShader = GraphicsDriver::Get()->CreatePixelShader(compiledPixelShader);
 
 		//create input layouts for position, normals, and texture coordinates

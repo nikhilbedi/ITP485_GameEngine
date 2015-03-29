@@ -72,6 +72,7 @@ namespace ITP485
 		{
 			wstring wTextureFileName = L"Textures\\" + wstring(textureFileName.begin(), textureFileName.end());	// convert to wstring
 			TexturePtr texturePtr = GraphicsDriver::Get()->CreateTextureFromFile(wTextureFileName.c_str()); // pass in wchar array
+			mesh->SetTexture(texturePtr);	// set texture
 		}
 
 		// Apply transformations to mesh

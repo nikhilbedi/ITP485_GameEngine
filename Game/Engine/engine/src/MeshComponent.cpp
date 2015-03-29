@@ -39,6 +39,10 @@ namespace ITP485
 			objectToWorldMatrix->Transpose();
 			GraphicsDriver::Get()->UnmapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
 
+			// Set texture
+			if (mTexture != NULL)
+				GraphicsDriver::Get()->SetPSTexture(mTexture, 0);
+
 			// render
 			mMesh->Render();
 		}
