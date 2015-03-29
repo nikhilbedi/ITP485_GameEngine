@@ -33,6 +33,7 @@ namespace ITP485
 		Quaternion GetRotation();
 		void SetTranslation(const Vector3& inTranslation);
 		void SetScale(const float& inScale);
+		//void SetTexture(const TexturePtr inTexture);
 
 
 
@@ -54,6 +55,9 @@ namespace ITP485
 
 		// Whether or not this guy is visible
 		bool mIsVisible;
+
+		// Mesh's texture
+		//TexturePtr mTexture;
 
 	};
 	typedef shared_ptr< MeshComponent > MeshComponentPtr;

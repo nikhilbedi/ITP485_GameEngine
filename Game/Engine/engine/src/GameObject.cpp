@@ -66,6 +66,14 @@ namespace ITP485
 		string scaleString = inIni.gets(mObjectName, "Scale", "1.0").c_str();
 		sscanf(scaleString.c_str(), "%f", &scale);
 
+		// Obtain texture
+		string textureFileName = inIni.gets(mObjectName, "Texture", "");
+		if (textureFileName != "")
+		{
+			wstring wTextureFileName = L"Textures\\" + wstring(textureFileName.begin(), textureFileName.end());	// convert to wstring
+			TexturePtr texturePtr = GraphicsDriver::Get()->CreateTextureFromFile(wTextureFileName.c_str()); // pass in wchar array
+		}
+
 		// Apply transformations to mesh
 		mesh->SetTranslation(position);
 		mesh->SetRotation(rotation);

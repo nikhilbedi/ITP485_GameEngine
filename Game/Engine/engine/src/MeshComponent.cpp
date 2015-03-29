@@ -63,4 +63,9 @@ namespace ITP485
 	{
 		return mRotation;
 	}
+
+	/*void MeshComponent::SetTexture(const TexturePtr inTexture)
+	{
+		mTexture = inTexture;
+	}*/
 }

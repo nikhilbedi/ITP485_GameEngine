@@ -16,8 +16,13 @@ namespace ITP485
 	{
 		MeshManager::Get().Clear();
 		//lab 4
+		// Create Rasterizer state
 		RasterizerStatePtr rasterizerStatePtr = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
 		GraphicsDriver::Get()->SetRasterizerState(rasterizerStatePtr);
+
+		// Create texture filtering mode
+		SamplerStatePtr samplerStatePtr = GraphicsDriver::Get()->CreateSamplerState();
+		GraphicsDriver::Get()->SetPSSamplerState(samplerStatePtr, 0);
 
 		//copy from App3_6, but change the loaded level to "Levels\\Lab4_1Level.ini"
 		//update to create new necessary objects and set new necessary state
