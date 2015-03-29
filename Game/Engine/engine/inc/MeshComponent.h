@@ -33,7 +33,7 @@ namespace ITP485
 		Quaternion GetRotation();
 		void SetTranslation(const Vector3& inTranslation);
 		void SetScale(const float& inScale);
-		//void SetTexture(const TexturePtr inTexture);
+		void SetTexture(const TexturePtr inTexture);
 
 
 
@@ -45,19 +45,23 @@ namespace ITP485
 		// World Transform Matrix
 		Matrix4 mObjectToWorld;
 
-		// Transformation variables
-		float mScale;
-		Vector3 mTranslation;
+		// Transformation variables -- Rotation
 		Quaternion mRotation;
+
+		// Transformation variables -- Translation
+		Vector3 mTranslation;
 
 		// Our particular model information
 		MeshPtr mMesh;
 
+		// Mesh's texture
+		TexturePtr mTexture;
+
+		// Transformation variables -- Scale
+		float mScale;
+
 		// Whether or not this guy is visible
 		bool mIsVisible;
-
-		// Mesh's texture
-		//TexturePtr mTexture;
 
 	};
 	typedef shared_ptr< MeshComponent > MeshComponentPtr;
