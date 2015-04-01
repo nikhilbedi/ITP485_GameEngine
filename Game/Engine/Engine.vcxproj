@@ -378,6 +378,7 @@
     <ClInclude Include="core\inc\slowmath.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
+    <ClInclude Include="engine\inc\AnimComponent.h" />
     <ClInclude Include="engine\inc\App4_2.h" />
     <ClInclude Include="engine\inc\LightingConstants.h" />
     <ClInclude Include="engine\inc\Spinner.h" />
@@ -404,6 +405,7 @@
     <ClInclude Include="main\inc\App3_5.h" />
     <ClInclude Include="main\inc\App3_6.h" />
     <ClInclude Include="main\inc\App4_1.h" />
+    <ClInclude Include="main\inc\App5_1.h" />
     <ClInclude Include="main\inc\AppManager.h" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
     <CLInclude Include="resource.h" />
@@ -415,6 +417,7 @@
     <ClCompile Include="core\src\slowmath.cpp" />
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
+    <ClCompile Include="engine\src\AnimComponent.cpp" />
     <ClCompile Include="engine\src\App4_2.cpp" />
     <ClCompile Include="engine\src\LightingConstants.cpp" />
     <ClCompile Include="engine\src\Spinner.cpp" />
@@ -438,6 +441,7 @@
     <ClCompile Include="main\src\App3_5.cpp" />
     <ClCompile Include="main\src\App3_6.cpp" />
     <ClCompile Include="main\src\App4_1.cpp" />
+    <ClCompile Include="main\src\App5_1.cpp" />
     <ClCompile Include="main\src\AppManager.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\App3_1.cpp" />
@@ -473,11 +477,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="..\Data\Shaders\App5_1.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Levels\Lab3Level.ini" />
     <None Include="..\Data\Levels\Lab4_1Level.ini" />
     <None Include="..\Data\Levels\Lab4_2Level.ini" />
+    <None Include="..\Data\Levels\Lab5_1Level.ini" />
     <None Include="..\Data\Meshes\Carl.itpmesh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

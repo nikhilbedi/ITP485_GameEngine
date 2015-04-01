@@ -8,6 +8,7 @@
 #include <App3_6.h>
 #include <App4_1.h>
 #include <App4_2.h>
+#include <App5_1.h>
 
 
 namespace ITP485
@@ -27,6 +28,7 @@ namespace ITP485
 		mAppCreators.push_back( []{ return std::make_shared< App3_6 >(); } );
 		mAppCreators.push_back( []{ return std::make_shared< App4_1 >(); } );
 		mAppCreators.push_back( []{ return std::make_shared< App4_2 >(); } );
+		mAppCreators.push_back( []{ return std::make_shared< App5_1 >(); } );
 
 		SelectApp( 0 );
 		
