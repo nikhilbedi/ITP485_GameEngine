@@ -480,6 +480,12 @@
     <None Include="..\Data\Levels\Lab4_2Level.ini" />
     <None Include="..\Data\Meshes\Carl.itpmesh" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Data\Textures\Blaze.dds" />
+    <Image Include="..\Data\Textures\CarlMidGeo.dds" />
+    <Image Include="..\Data\Textures\chair.dds" />
+    <Image Include="..\Data\Textures\cube.dds" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

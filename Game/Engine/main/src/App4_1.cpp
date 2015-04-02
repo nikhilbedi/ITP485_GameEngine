@@ -24,6 +24,12 @@ namespace ITP485
 		SamplerStatePtr samplerStatePtr = GraphicsDriver::Get()->CreateSamplerState();
 		GraphicsDriver::Get()->SetPSSamplerState(samplerStatePtr, 0);
 
+		// Set up DepthStencil
+		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil(GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight());
+		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState(true, ECF_Less);
+		GraphicsDriver::Get()->SetDepthStencil(mDepthStencilView);
+		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
+
 		//copy from App3_6, but change the loaded level to "Levels\\Lab4_1Level.ini"
 		//update to create new necessary objects and set new necessary state
 		//let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
@@ -54,9 +60,7 @@ namespace ITP485
 		mCamera = CameraPtr(new Camera(Vector3(0, 0, -2), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
 
 		// Load Game Level
-		//Matrix4 temp = mCamera->GetProjectionViewMatrix();
 		GameWorld::Get().LoadLevel("Levels\\Lab4_1Level.ini", mCamera);
-		//temp = mCamera->GetProjectionViewMatrix();
 
 		// Retrieve necessary camera variables
 		Matrix4 projectionViewMatrix;
@@ -117,7 +121,8 @@ namespace ITP485
 
 	void App4_1::Setup()
 	{
-		/* clear back buffer */
+		/* clear back buffers */
+		GraphicsDriver::Get()->ClearDepthStencil(mDepthStencilView, 1.0f);
 		GraphicsDriver::Get()->ClearBackBuffer();
 
 		/* Shader Setup */

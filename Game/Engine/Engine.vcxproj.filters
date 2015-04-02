@@ -57,6 +57,9 @@
     <Filter Include="ini">
       <UniqueIdentifier>{a3e0ebb7-32dd-4c9f-91ce-167d761b9ced}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\Textures">
+      <UniqueIdentifier>{7c11cf8f-bb0c-443e-8b68-4cc6531dac3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -189,9 +192,6 @@
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp">
       <Filter>graphicsdriver\src</Filter>
     </ClCompile>
-    <ClCompile Include="main\src\PrecompiledHeader.cpp">
-      <Filter>main\src</Filter>
-    </ClCompile>
     <ClCompile Include="core\src\fastmath.cpp">
       <Filter>core\src</Filter>
     </ClCompile>
@@ -279,6 +279,9 @@
     <ClCompile Include="engine\src\LightingConstants.cpp">
       <Filter>engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="main\src\PrecompiledHeader.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Data\Shaders\App3_1.hlsl">
@@ -310,5 +313,19 @@
     <None Include="..\Data\Levels\Lab4_2Level.ini">
       <Filter>Data\Levels</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Data\Textures\Blaze.dds">
+      <Filter>Data\Textures</Filter>
+    </Image>
+    <Image Include="..\Data\Textures\CarlMidGeo.dds">
+      <Filter>Data\Textures</Filter>
+    </Image>
+    <Image Include="..\Data\Textures\chair.dds">
+      <Filter>Data\Textures</Filter>
+    </Image>
+    <Image Include="..\Data\Textures\cube.dds">
+      <Filter>Data\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
