@@ -68,11 +68,76 @@ namespace ITP485
 
 		//lab 4
 		//implement this, adding necessary parameters
-		/*
-		void LoadPointLight( ... )
+		
+		void LoadPointLight(const std::string pointLightName, const minIni& ini)
 		{
+			struct PointLight pointLight;
+
+			// Obtain Diffuse color
+			string diffuseColorString = ini.gets(pointLightName, "DiffuseColor", "(0,0,0)").c_str();
+			float diffuseColorX = 0;
+			float diffuseColorY = 0;
+			float diffuseColorZ = 0;
+			sscanf(diffuseColorString.c_str(),
+				"(%f, %f, %f)", 
+				&diffuseColorX, 
+				&diffuseColorY, 
+				&diffuseColorZ);
+
+			// Obtain Specular color
+			string specularColorString = ini.gets(pointLightName, "SpecularColor", "(0,0,0)").c_str();
+			float specularColorX = 0;
+			float specularColorY = 0;
+			float specularColorZ = 0;
+			sscanf(specularColorString.c_str(),
+				"(%f, %f, %f)",
+				&specularColorX,
+				&specularColorY,
+				&specularColorZ);
+
+			// Obtain Position
+			string positionString = ini.gets(pointLightName, "Position", "(0,0,0)").c_str();
+			float positionX = 0;
+			float positionY = 0;
+			float positionZ = 0;
+			sscanf(positionString.c_str(),
+				"(%f, %f, %f)",
+				&positionX,
+				&positionY,
+				&positionZ);
+
+			// Obtain Specular power
+			string specularPowerString = ini.gets(pointLightName, "SpecularPower", "0").c_str();
+			float specularPower = 0;
+			sscanf(specularPowerString.c_str(),
+				"%f",
+				&specularPower);
+
+			// Obtain Inner Radius
+			string innerRadiusString = ini.gets(pointLightName, "InnerRadius", "0").c_str();
+			float innerRadius = 0;
+			sscanf(innerRadiusString.c_str(),
+				"%f",
+				&innerRadius);
+
+			// Obtain Outer Radius
+			string outerRadiusString = ini.gets(pointLightName, "OuterRadius", "0").c_str();
+			float outerRadius = 0;
+			sscanf(outerRadiusString.c_str(),
+				"%f",
+				&outerRadius);
+
+			// set values
+			pointLight.mDiffuseColor = Vector3(diffuseColorX, diffuseColorY, diffuseColorZ);
+			pointLight.mSpecularColor = Vector3(specularColorX, specularColorY, specularColorZ);
+			pointLight.mPosition = Vector3(positionX, positionY, positionZ);
+			pointLight.mSpecularPower = specularPower;
+			pointLight.mInnerRadius = innerRadius;
+			pointLight.mOuterRadius = outerRadius;
+
+			// Add to the gameworld
+			//mLightingConstants.mAmbientColor = ambientLight;
 		}
-		*/
 
 
 		
@@ -125,12 +190,9 @@ namespace ITP485
 			{
 				LoadAmbientLight(ini);
 			}
-			else if (sectionName == "PointLight0" ||
-				sectionName == "PointLight1" ||
-				sectionName == "PointLight2" ||
-				sectionName == "PointLight3")
+			else if (sectionName.find("PointLight") != std::string::npos)
 			{
-
+				LoadPointLight(sectionName, ini);
 			}
 			//lab 3
 			else
