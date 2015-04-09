@@ -41,12 +41,13 @@ SamplerState gSamplerState : register(s0);
 
 struct VS_INPUT {
 	float4 mPos : POSITION;
-	float3 mNormal : NORMAL;
+	float4 mNormal : NORMAL;
 	float2 mTexCoord : TEXCOORD;
 };
 
 struct PS_INPUT {
 	float4 mPos : SV_POSITION;
+	float4 mNormal : NORMAL;
 	float2 mTexCoord : TEXCOORD;
 };
 
@@ -57,6 +58,7 @@ PS_INPUT VS(VS_INPUT input)
 {
 	PS_INPUT output;
 	output.mPos = mul(projectionViewMatrix, mul(objectToWorldMatrix, input.mPos));
+	output.mNormal = mul(objectToWorldMatrix, input.mNormal); // transform normal and normalize
 	output.mTexCoord = input.mTexCoord;
 	return output;
 }
@@ -70,10 +72,41 @@ float4 PS(PS_INPUT input) : SV_Target
 	// Phong Algorithm
 	float4 phong = ambientColor;
 
-	phong += pointLight0.mDiffuseColor;	// * (N * L)
-	phong += pointLight1.mDiffuseColor;
-	phong += pointLight2.mDiffuseColor;
-	phong += pointLight3.mDiffuseColor;
+	// TODO -- USE INNER/OUTER RADIUS to determine if point is visible
+	// TODO -- A is angle in radians between R and V
+
+	// L = unit vector from position to light source
+	// N = surface normal
+	// V = unit vector from position to camera
+	// R = reflection of L at current position (2 * (L*N) * N - L)
+	float4 L = normalize(pointLight0.mPos - input.mPos);
+	float4 N = normalize(input.mNormal);
+	float4 V = normalize(cameraPosition - input.mPos);
+	float4 R = 2 * (L * N) * N - L;
+	phong += pointLight0.mDiffuseColor * (N * L);
+	phong += pointLight0.mSpecularColor * (R * V); // should be pow(R*V, a)
+
+	L = normalize(pointLight1.mPos - input.mPos);
+	N = normalize(input.mNormal);
+	V = normalize(cameraPosition - input.mPos);
+	R = 2 * (L * N) * N - L;
+	phong += pointLight1.mDiffuseColor * (N * L);
+	phong += pointLight1.mSpecularColor * (R * V); // should be pow(R*V, a)
+
+	L = normalize(pointLight2.mPos - input.mPos);
+	N = normalize(input.mNormal);
+	V = normalize(cameraPosition - input.mPos);
+	R = 2 * (L * N) * N - L;
+	phong += pointLight2.mDiffuseColor * (N * L);
+	phong += pointLight2.mSpecularColor * (R * V); // should be pow(R*V, a)
+
+	L = normalize(pointLight3.mPos - input.mPos);
+	N = normalize(input.mNormal);
+	V = normalize(cameraPosition - input.mPos);
+	R = 2 * (L * N) * N - L;
+	phong += pointLight3.mDiffuseColor * (N * L);
+	phong += pointLight3.mSpecularColor * (R * V); // should be pow(R*V, a)
+
 
 	return phong * gTexture.Sample(gSamplerState, input.mTexCoord);
 }
