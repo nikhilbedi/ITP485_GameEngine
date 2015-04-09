@@ -78,7 +78,21 @@ namespace ITP485
 		
 	}
 
+	void GameWorld::LoadAmbientLight(const minIni& ini)
+	{
+		Vector3 ambientLight;
 
+		// Obtain ambient light
+		string ambientString = ini.gets("AmbientLight", "Color", "(1,1,1)").c_str();
+		float x = 1;
+		float y = 0;
+		float z = 0;
+		sscanf(ambientString.c_str(), "(%f, %f, %f)", &x, &y, &z);
+		ambientLight.Set(x, y, z);
+
+		// Add to the gameworld
+		mLightingConstants.mAmbientColor = ambientLight;
+	}
 
 
 
@@ -106,6 +120,17 @@ namespace ITP485
 			{
 				//call LoadCamera, passing necessary parameters
 				LoadCamera(inCamera, ini);
+			}
+			else if (sectionName == "AmbientLight")
+			{
+				LoadAmbientLight(ini);
+			}
+			else if (sectionName == "PointLight0" ||
+				sectionName == "PointLight1" ||
+				sectionName == "PointLight2" ||
+				sectionName == "PointLight3")
+			{
+
 			}
 			//lab 3
 			else

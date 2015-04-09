@@ -44,9 +44,10 @@ namespace ITP485
 		void UpdateConstants()
 		{
 			GraphicsBufferPtr mPerCameraConstantBuffer = GraphicsDriver::Get()->GetPerCameraConstantBuffer();
-			Matrix4 projectionViewMatrixTemp = *(Matrix4*)GraphicsDriver::Get()->MapBuffer(mPerCameraConstantBuffer);
-			projectionViewMatrixTemp = mProjectionViewMatrix;
+			Matrix4* projectionViewMatrixPtr = (Matrix4*)GraphicsDriver::Get()->MapBuffer(mPerCameraConstantBuffer);
+			Matrix4 projectionViewMatrixTemp = mProjectionViewMatrix;
 			projectionViewMatrixTemp.Transpose();
+			memcpy(projectionViewMatrixPtr, &projectionViewMatrixTemp, sizeof(Matrix4));
 			GraphicsDriver::Get()->UnmapBuffer(mPerCameraConstantBuffer);
 		}
 

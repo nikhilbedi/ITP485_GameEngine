@@ -16,6 +16,8 @@ namespace ITP485
 		//lab 3
 		//you'll need to add some methods
 
+		void LoadAmbientLight(const minIni& inIni);
+
 		void AddToWorld( GameObjectPtr inGameObject );
 		
 		// Load in the level file
