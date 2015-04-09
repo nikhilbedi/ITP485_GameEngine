@@ -67,15 +67,19 @@ namespace ITP485
 		GameWorld::Get().LoadLevel("Levels\\Lab4_2Level.ini", mCamera);
 
 		// Retrieve necessary camera variables
-		Matrix4 projectionViewMatrix;
-		projectionViewMatrix = mCamera->GetProjectionViewMatrix();
-		projectionViewMatrix.Transpose();
+		struct CameraConstant{
+			Matrix4 mProjectionViewMatrix;
+			Vector3 mPosition;
+		} cameraConstants;
+		cameraConstants.mProjectionViewMatrix = mCamera->GetProjectionViewMatrix();
+		cameraConstants.mProjectionViewMatrix.Transpose();
+		cameraConstants.mPosition = mCamera->GetPosition();
 
 		// Set up camera constant buffer
 		GraphicsDriver::Get()->SetPerCameraConstantBuffer(
 			GraphicsDriver::Get()->CreateGraphicsBuffer(
-			&projectionViewMatrix,
-			sizeof(projectionViewMatrix),
+			&cameraConstants,
+			sizeof(CameraConstant),
 			EBF_ConstantBuffer,
 			ECPUAF_CanWrite,
 			EGBU_Dynamic)

@@ -9,7 +9,9 @@ namespace ITP485
 		//lab 4, update the graphics buffer with the current lighting constants
 
 		LightingConstants* ptr = reinterpret_cast<LightingConstants*> (GraphicsDriver::Get()->MapBuffer(inGraphicsBuffer));
-		ptr->mAmbientColor = mAmbientColor;
+		memcpy(ptr, this, sizeof(LightingConstants));
+		//ptr->mAmbientColor = mAmbientColor;
+		//ptr->mPointLights = mPointLights;
 		GraphicsDriver::Get()->UnmapBuffer(inGraphicsBuffer);
 	}
 }

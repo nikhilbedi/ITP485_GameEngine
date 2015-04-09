@@ -51,6 +51,11 @@ namespace ITP485
 			GraphicsDriver::Get()->UnmapBuffer(mPerCameraConstantBuffer);
 		}
 
+		const Vector3& GetPosition() const
+		{
+			return mPosition;
+		}
+
 	private:
 
 		void UpdateViewMatrix();

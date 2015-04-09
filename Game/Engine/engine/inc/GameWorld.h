@@ -15,6 +15,7 @@ namespace ITP485
 
 		//lab 3
 		//you'll need to add some methods
+		void LoadPointLight(const std::string pointLightName, const minIni& ini);
 
 		void LoadAmbientLight(const minIni& inIni);
 

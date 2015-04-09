@@ -4,10 +4,20 @@
 //then add point lights!  First only show a single point light so you can make sure it's working right.
 //then, accumulate all 4 point lights into your final pixel color
 
+struct POINT_LIGHT {
+	float4	mDiffuseColor;
+	float4	mSpecularColor;
+	float4	mPos;
+	float	mSpecularPower;
+	float	mInnerRadius;
+	float	mOuterRadius;
+	float	mPadding;
+};
 
 cbuffer CameraConstant : register(b0)
 {
 	float4x4 projectionViewMatrix;
+	float4 cameraPosition;
 };
 
 cbuffer ObjectConstant : register(b1)
@@ -18,6 +28,11 @@ cbuffer ObjectConstant : register(b1)
 cbuffer LightingConstants : register(b2)
 {
 	float4 ambientColor;
+	// point lights
+	POINT_LIGHT pointLight0;
+	POINT_LIGHT pointLight1;
+	POINT_LIGHT pointLight2;
+	POINT_LIGHT pointLight3;
 };
 
 Texture2D gTexture : register(t0);
@@ -52,5 +67,13 @@ PS_INPUT VS(VS_INPUT input)
 //--------------------------------------------------------------------------------------
 float4 PS(PS_INPUT input) : SV_Target
 {
-	return ambientColor * gTexture.Sample(gSamplerState, input.mTexCoord);
+	// Phong Algorithm
+	float4 phong = ambientColor;
+
+	phong += pointLight0.mDiffuseColor;	// * (N * L)
+	phong += pointLight1.mDiffuseColor;
+	phong += pointLight2.mDiffuseColor;
+	phong += pointLight3.mDiffuseColor;
+
+	return phong * gTexture.Sample(gSamplerState, input.mTexCoord);
 }
