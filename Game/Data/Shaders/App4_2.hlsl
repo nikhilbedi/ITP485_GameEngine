@@ -73,20 +73,31 @@ float4 PS(PS_INPUT input) : SV_Target
 	float4 phong = ambientColor;
 
 	// TODO -- USE INNER/OUTER RADIUS to determine if point is visible
-	// TODO -- A is angle in radians between R and V
+		// position passed in is HUGE. Not world coordinates, it seems
+	// TODO -- A is angle in radians between R and V (or maybe it's specular power?)
+
+	/*
+	Phong Lighting Equation:
+	I = ambient + sumOfAllLights(diffuse * (N * L) + specular * (R * V)^a)
+	*/
 
 	// L = unit vector from position to light source
 	// N = surface normal
 	// V = unit vector from position to camera
 	// R = reflection of L at current position (2 * (L*N) * N - L)
-	float4 L = normalize(pointLight0.mPos - input.mPos);
-	float4 N = normalize(input.mNormal);
-	float4 V = normalize(cameraPosition - input.mPos);
-	float4 R = 2 * (L * N) * N - L;
-	phong += pointLight0.mDiffuseColor * (N * L);
-	phong += pointLight0.mSpecularColor * (R * V); // should be pow(R*V, a)
+	float lightDistance = distance(pointLight0.mPos, input.mPos);
+	//if (lightDistance < pointLight0.mOuterRadius)
+	{
+		float4 L = normalize(pointLight0.mPos - input.mPos); // correct
+		float4 N = normalize(input.mNormal);	// correct
+		float4 V = normalize(cameraPosition - input.mPos);
+		float4 R = reflect(-1*L, N);	// maybe correct... 
+		phong += pointLight0.mDiffuseColor * (dot(N, L));	// correct
+		phong += pointLight0.mSpecularColor * (pow(max(dot(R, V), 0.0), pointLight0.mSpecularPower));	// correct
+	}
 
-	L = normalize(pointLight1.mPos - input.mPos);
+
+	/*L = normalize(pointLight1.mPos - input.mPos);
 	N = normalize(input.mNormal);
 	V = normalize(cameraPosition - input.mPos);
 	R = 2 * (L * N) * N - L;
@@ -106,7 +117,7 @@ float4 PS(PS_INPUT input) : SV_Target
 	R = 2 * (L * N) * N - L;
 	phong += pointLight3.mDiffuseColor * (N * L);
 	phong += pointLight3.mSpecularColor * (R * V); // should be pow(R*V, a)
-
+	*/
 
 	return phong * gTexture.Sample(gSamplerState, input.mTexCoord);
 }
