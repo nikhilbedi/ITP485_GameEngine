@@ -83,33 +83,45 @@ float4 PS(PS_INPUT input) : SV_Target
 	// N = surface normal
 	// V = unit vector from position to camera
 	// R = reflection of L at current position (2 * (L*N) * N - L)
-	//float a = cos(dot(R, V) / (length(R) * length(V)));
-	float lightDistance = distance(pointLight0.mPos, input.mWorldPos);
-	if (lightDistance < pointLight0.mOuterRadius)
+	for (int i = 0; i < 4; i++)
 	{
-		// Determine core values
-		float I = 0;
-		float4 L = normalize(pointLight0.mPos - input.mWorldPos); // correct
-		float4 N = normalize(input.mNormal);	// correct
-		float3 V = normalize(cameraPosition.xyz - input.mWorldPos.xyz);
-		float3 R = normalize(reflect(L.xyz, N.xyz));  // this function seems equivalent to 2 * dot(L, N) * N - L;
+		POINT_LIGHT pointLight;
+		if (i == 0)
+			pointLight = pointLight0;
+		else if (i == 1)
+			pointLight = pointLight1;
+		else if (i == 2)
+			pointLight = pointLight2;
+		else
+			pointLight = pointLight3;
 
-		// Determine colors
-		float diffuseColor = pointLight0.mDiffuseColor * (saturate(dot(N, L)));	// correct
-		float specularColor = pointLight0.mSpecularColor * pow(saturate(dot(R, V)), pointLight0.mSpecularPower);
-		
-		// attenuate using distance
-		if(lightDistance > pointLight0.mInnerRadius)
+		float lightDistance = distance(pointLight.mPos, input.mWorldPos);
+		if (lightDistance < pointLight.mOuterRadius)
 		{
-			float interpolation = 1.0 - smoothstep(pointLight0.mInnerRadius, pointLight0.mOuterRadius, lightDistance);
-			diffuseColor *= interpolation;
-			specularColor *= interpolation;
+			// Determine core values
+			float4 I = 0;
+			float4 L = normalize(pointLight.mPos - input.mWorldPos);
+			float4 N = normalize(input.mNormal);
+			float4 V = normalize(cameraPosition - input.mWorldPos);
+			float4 R = normalize(reflect(L, N));  // this function seems equivalent to 2 * dot(L, N) * N - L;
+
+			// Determine colors
+			float4 diffuseColor = pointLight.mDiffuseColor * (saturate(dot(N, L)));
+			float4 specularColor = pointLight.mSpecularColor * pow(saturate(dot(R, V)), pointLight.mSpecularPower);
+
+			// attenuate using distance
+			if (lightDistance > pointLight.mInnerRadius)
+			{
+				float interpolation = 1.0 - smoothstep(pointLight.mInnerRadius, pointLight.mOuterRadius, lightDistance);
+				diffuseColor *= interpolation;
+				specularColor *= interpolation;
+			}
+
+			// Assign finals
+			I = diffuseColor + specularColor;
+			phong += I;
 		}
-
-		// Assign finals
-		I = diffuseColor + specularColor;
-		phong += I;
 	}
-
+	
 	return (ambientColor + phong) * gTexture.Sample(gSamplerState, input.mTexCoord);
 }
