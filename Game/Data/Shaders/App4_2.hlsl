@@ -47,6 +47,7 @@ struct VS_INPUT {
 
 struct PS_INPUT {
 	float4 mPos : SV_POSITION;
+	float4 mWorldPos : POSITION;
 	float4 mNormal : NORMAL;
 	float2 mTexCoord : TEXCOORD;
 };
@@ -58,6 +59,7 @@ PS_INPUT VS(VS_INPUT input)
 {
 	PS_INPUT output;
 	output.mPos = mul(projectionViewMatrix, mul(objectToWorldMatrix, input.mPos));
+	output.mWorldPos = mul(objectToWorldMatrix, input.mPos);
 	output.mNormal = mul(objectToWorldMatrix, input.mNormal); // transform normal and normalize
 	output.mTexCoord = input.mTexCoord;
 	return output;
@@ -70,11 +72,7 @@ PS_INPUT VS(VS_INPUT input)
 float4 PS(PS_INPUT input) : SV_Target
 {
 	// Phong Algorithm
-	float4 phong = ambientColor;
-
-	// TODO -- USE INNER/OUTER RADIUS to determine if point is visible
-		// position passed in is HUGE. Not world coordinates, it seems
-	// TODO -- A is angle in radians between R and V (or maybe it's specular power?)
+	float4 phong = 0;
 
 	/*
 	Phong Lighting Equation:
@@ -85,39 +83,33 @@ float4 PS(PS_INPUT input) : SV_Target
 	// N = surface normal
 	// V = unit vector from position to camera
 	// R = reflection of L at current position (2 * (L*N) * N - L)
-	float lightDistance = distance(pointLight0.mPos, input.mPos);
-	//if (lightDistance < pointLight0.mOuterRadius)
+	//float a = cos(dot(R, V) / (length(R) * length(V)));
+	float lightDistance = distance(pointLight0.mPos, input.mWorldPos);
+	if (lightDistance < pointLight0.mOuterRadius)
 	{
-		float4 L = normalize(pointLight0.mPos - input.mPos); // correct
+		// Determine core values
+		float I = 0;
+		float4 L = normalize(pointLight0.mPos - input.mWorldPos); // correct
 		float4 N = normalize(input.mNormal);	// correct
-		float4 V = normalize(cameraPosition - input.mPos);
-		float4 R = reflect(-1*L, N);	// maybe correct... 
-		phong += pointLight0.mDiffuseColor * (dot(N, L));	// correct
-		phong += pointLight0.mSpecularColor * (pow(max(dot(R, V), 0.0), pointLight0.mSpecularPower));	// correct
+		float3 V = normalize(cameraPosition.xyz - input.mWorldPos.xyz);
+		float3 R = normalize(reflect(L.xyz, N.xyz));  // this function seems equivalent to 2 * dot(L, N) * N - L;
+
+		// Determine colors
+		float diffuseColor = pointLight0.mDiffuseColor * (saturate(dot(N, L)));	// correct
+		float specularColor = pointLight0.mSpecularColor * pow(saturate(dot(R, V)), pointLight0.mSpecularPower);
+		
+		// attenuate using distance
+		if(lightDistance > pointLight0.mInnerRadius)
+		{
+			float interpolation = 1.0 - smoothstep(pointLight0.mInnerRadius, pointLight0.mOuterRadius, lightDistance);
+			diffuseColor *= interpolation;
+			specularColor *= interpolation;
+		}
+
+		// Assign finals
+		I = diffuseColor + specularColor;
+		phong += I;
 	}
 
-
-	/*L = normalize(pointLight1.mPos - input.mPos);
-	N = normalize(input.mNormal);
-	V = normalize(cameraPosition - input.mPos);
-	R = 2 * (L * N) * N - L;
-	phong += pointLight1.mDiffuseColor * (N * L);
-	phong += pointLight1.mSpecularColor * (R * V); // should be pow(R*V, a)
-
-	L = normalize(pointLight2.mPos - input.mPos);
-	N = normalize(input.mNormal);
-	V = normalize(cameraPosition - input.mPos);
-	R = 2 * (L * N) * N - L;
-	phong += pointLight2.mDiffuseColor * (N * L);
-	phong += pointLight2.mSpecularColor * (R * V); // should be pow(R*V, a)
-
-	L = normalize(pointLight3.mPos - input.mPos);
-	N = normalize(input.mNormal);
-	V = normalize(cameraPosition - input.mPos);
-	R = 2 * (L * N) * N - L;
-	phong += pointLight3.mDiffuseColor * (N * L);
-	phong += pointLight3.mSpecularColor * (R * V); // should be pow(R*V, a)
-	*/
-
-	return phong * gTexture.Sample(gSamplerState, input.mTexCoord);
+	return (ambientColor + phong) * gTexture.Sample(gSamplerState, input.mTexCoord);
 }
