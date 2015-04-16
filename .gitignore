@@ -1,6 +1,7 @@
 *.obj
 *.idb
 *.pdb
+*.sdf
 CPPRefresher/CPPRefresher/Debug/CPPRefresher.Build.CppClean.log
 CPPRefresher/CPPRefresher/Debug/CPPRefresher.log
 CPPRefresher/CPPRefresher/Debug/CPPRefresher.tlog/CL.read.1.tlog
@@ -30,3 +31,7 @@ Game/ITP485.opensdf
 Game/ITP485.sdf
 Game/ITP485.v12.suo
 Game/ipch/engine-179f0a6/engine-debug-529cb556.ipch
+
+Game/Engine/unittest/Debug/
+Game/Engine/unittest/Release/
+Game/ipch/

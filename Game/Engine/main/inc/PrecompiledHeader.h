@@ -34,6 +34,7 @@ using std::set;
 #include <Camera.h>
 
 #include <Mesh.h>
+#include <AnimComponent.h>
 #include <MeshComponent.h>
 #include <SceneGraph.h>
 
