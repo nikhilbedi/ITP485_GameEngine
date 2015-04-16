@@ -179,6 +179,12 @@
     <ClInclude Include="engine\inc\App4_2.h">
       <Filter>main\inc</Filter>
     </ClInclude>
+    <ClInclude Include="engine\inc\AnimComponent.h">
+      <Filter>engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\App5_1.h">
+      <Filter>main\inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc">
@@ -282,6 +288,11 @@
     <ClCompile Include="main\src\PrecompiledHeader.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\AnimComponent.cpp">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\App5_1.cpp">
+      <Filter>main\src</Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Data\Shaders\App3_1.hlsl">
@@ -299,6 +310,9 @@
     <FxCompile Include="..\Data\Shaders\App4_2.hlsl">
       <Filter>Data\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="..\Data\Shaders\App5_1.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Meshes\Carl.itpmesh">
@@ -311,6 +325,9 @@
       <Filter>Data\Levels</Filter>
     </None>
     <None Include="..\Data\Levels\Lab4_2Level.ini">
+      <Filter>Data\Levels</Filter>
+    </None>
+    <None Include="..\Data\Levels\Lab5_1Level.ini">
       <Filter>Data\Levels</Filter>
     </None>
   </ItemGroup>
