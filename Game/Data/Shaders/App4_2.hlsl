@@ -5,8 +5,8 @@
 //then, accumulate all 4 point lights into your final pixel color
 
 struct POINT_LIGHT {
-	float4	mDiffuseColor;
-	float4	mSpecularColor;
+	float3	mDiffuseColor;
+	float3	mSpecularColor;
 	float4	mPos;
 	float	mSpecularPower;
 	float	mInnerRadius;
@@ -27,12 +27,9 @@ cbuffer ObjectConstant : register(b1)
 
 cbuffer LightingConstants : register(b2)
 {
-	float4 ambientColor;
-	// point lights
-	POINT_LIGHT pointLight0;
-	POINT_LIGHT pointLight1;
-	POINT_LIGHT pointLight2;
-	POINT_LIGHT pointLight3;
+	float3 ambientColor;
+	// point lights -- pointlight[4]
+	POINT_LIGHT pointLights[4];
 };
 
 Texture2D gTexture : register(t0);
@@ -41,14 +38,14 @@ SamplerState gSamplerState : register(s0);
 
 struct VS_INPUT {
 	float4 mPos : POSITION;
-	float4 mNormal : NORMAL;
+	float3 mNormal : NORMAL;
 	float2 mTexCoord : TEXCOORD;
 };
 
 struct PS_INPUT {
 	float4 mPos : SV_POSITION;
 	float4 mWorldPos : POSITION;
-	float4 mNormal : NORMAL;
+	float3 mNormal : NORMAL;
 	float2 mTexCoord : TEXCOORD;
 };
 
@@ -58,8 +55,8 @@ struct PS_INPUT {
 PS_INPUT VS(VS_INPUT input)
 {
 	PS_INPUT output;
-	output.mPos = mul(projectionViewMatrix, mul(objectToWorldMatrix, input.mPos));
 	output.mWorldPos = mul(objectToWorldMatrix, input.mPos);
+	output.mPos = mul(projectionViewMatrix, output.mWorldPos);
 	output.mNormal = mul(objectToWorldMatrix, input.mNormal); // transform normal and normalize
 	output.mTexCoord = input.mTexCoord;
 	return output;
@@ -72,7 +69,7 @@ PS_INPUT VS(VS_INPUT input)
 float4 PS(PS_INPUT input) : SV_Target
 {
 	// Phong Algorithm
-	float4 phong = 0;
+	float3 phong = 0;
 
 	/*
 	Phong Lighting Equation:
@@ -85,29 +82,20 @@ float4 PS(PS_INPUT input) : SV_Target
 	// R = reflection of L at current position (2 * (L*N) * N - L)
 	for (int i = 0; i < 4; i++)
 	{
-		POINT_LIGHT pointLight;
-		if (i == 0)
-			pointLight = pointLight0;
-		else if (i == 1)
-			pointLight = pointLight1;
-		else if (i == 2)
-			pointLight = pointLight2;
-		else
-			pointLight = pointLight3;
-
+		POINT_LIGHT pointLight = pointLights[i];
 		float lightDistance = distance(pointLight.mPos, input.mWorldPos);
 		if (lightDistance < pointLight.mOuterRadius)
 		{
 			// Determine core values
-			float4 I = 0;
-			float4 L = normalize(pointLight.mPos - input.mWorldPos);
-			float4 N = normalize(input.mNormal);
-			float4 V = normalize(cameraPosition - input.mWorldPos);
-			float4 R = normalize(reflect(L, N));  // this function seems equivalent to 2 * dot(L, N) * N - L;
+			float3 I = 0;
+			float3 L = normalize(pointLight.mPos.xyz - input.mWorldPos.xyz);
+			float3 N = normalize(input.mNormal);
+			float3 V = normalize(cameraPosition.xyz - input.mWorldPos.xyz);
+			float3 R = normalize(reflect(L, N));  // this function seems equivalent to 2 * dot(L, N) * N - L;
 
 			// Determine colors
-			float4 diffuseColor = pointLight.mDiffuseColor * (saturate(dot(N, L)));
-			float4 specularColor = pointLight.mSpecularColor * pow(saturate(dot(R, V)), pointLight.mSpecularPower);
+			float3 diffuseColor = pointLight.mDiffuseColor * (saturate(dot(N, L)));
+			float3 specularColor = pointLight.mSpecularColor * pow(saturate(dot(R, V)), pointLight.mSpecularPower);
 
 			// attenuate using distance
 			if (lightDistance > pointLight.mInnerRadius)
@@ -123,5 +111,5 @@ float4 PS(PS_INPUT input) : SV_Target
 		}
 	}
 	
-	return (ambientColor + phong) * gTexture.Sample(gSamplerState, input.mTexCoord);
+	return float4((ambientColor + phong), 1.0) * gTexture.Sample(gSamplerState, input.mTexCoord);
 }
