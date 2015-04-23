@@ -75,6 +75,7 @@ void InitSubSystems()
 
 	//todo: add any init code here
 	MeshComponentPool::Get().StartUp();
+	KeyFramePool::Get().StartUp();
 }
 
 void RunLoop()

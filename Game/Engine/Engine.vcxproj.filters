@@ -60,6 +60,9 @@
     <Filter Include="Data\Textures">
       <UniqueIdentifier>{7c11cf8f-bb0c-443e-8b68-4cc6531dac3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\Animations">
+      <UniqueIdentifier>{0abbd7fe-bf40-46de-b53c-5beb0a9208af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -330,6 +333,9 @@
     </None>
     <None Include="..\Data\Levels\Lab5_1Level.ini">
       <Filter>Data\Levels</Filter>
+    </None>
+    <None Include="..\Data\Animations\skel.itpanim">
+      <Filter>Data\Animations</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

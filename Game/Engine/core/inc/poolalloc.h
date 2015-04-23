@@ -153,11 +153,15 @@ void PoolAllocator<block_size, num_blocks>::StartUp()
 	for (int i = 1; i < num_blocks; i++)
 	{
 		// If in debug mode, for each pool block, assign values 
-#ifdef _DEBUG 
+#ifdef _DEBUG
+		/*
 		for (int j = 0; j < block_size; j++)
 		{
 			m_pPool->_memory[j] = 0xde;
 		}
+		*/
+		memset(m_pPool, 0xde, block_size);
+
 		m_pPool->_boundary = 0xdeadbeef;
 #endif
 		m_pFreeList[i - 1]._next = &m_pFreeList[i];
@@ -222,10 +226,13 @@ void PoolAllocator<block_size, num_blocks>::Free(void* ptr)
 	Dbg_Assert(poolPtr->_boundary == 0xdeadbeef, "Bounds were overwritten");
 #endif
 
+	/*
 	for (int j = 0; j < block_size; j++)
 	{
 		m_pPool->_memory[j] = 0xde;
 	}
+	*/
+	memset(m_pPool, 0xde, block_size);
 	m_pPool->_boundary = 0xdeadbeef;
 	poolPtr->_next = m_pFreeList;
 	m_pFreeList = poolPtr;

@@ -16,15 +16,24 @@ namespace ITP485
 
 	void GameObject::AddComponent( MeshComponentPtr inMeshComponent )
 	{
-		//lab 3 
-		//implement
 		Dbg_Assert(mMeshComponentPtr == NULL, "Cannot have two mesh components at a single time");
 		mMeshComponentPtr = inMeshComponent;
+	}
+
+	void GameObject::AddAnimComponent(AnimComponentPtr inAnimComponent)
+	{
+		Dbg_Assert(mAnimComponentPtr == NULL, "Cannot have two animation components at a single time");
+		mAnimComponentPtr = inAnimComponent;
 	}
 
 	MeshComponentPtr GameObject::GetComponent()
 	{
 		return mMeshComponentPtr;
+	}
+
+	AnimComponentPtr GameObject::GetAnimComponent()
+	{
+		return mAnimComponentPtr;
 	}
 
 	// Spawn this object based on ObjectName
@@ -73,6 +82,14 @@ namespace ITP485
 			wstring wTextureFileName = L"Textures\\" + wstring(textureFileName.begin(), textureFileName.end());	// convert to wstring
 			TexturePtr texturePtr = GraphicsDriver::Get()->CreateTextureFromFile(wTextureFileName.c_str()); // pass in wchar array
 			mesh->SetTexture(texturePtr);	// set texture
+		}
+
+		// Obtain animation and add animation if available
+		string animationString = "Animations\\" + inIni.gets(mObjectName, "Animation", "");
+		if (animationString.length() > 0)
+		{
+			AnimComponentPtr anim(new AnimComponent(animationString.c_str()));
+			AddAnimComponent(anim);
 		}
 
 		// Apply transformations to mesh

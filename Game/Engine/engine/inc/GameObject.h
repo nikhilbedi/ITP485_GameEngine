@@ -19,12 +19,13 @@ namespace ITP485
 		// Sets component pointers to NULL
 		GameObject();
 
-		//lab 3
-		//you'll need to add some other functions too...
-
 		void AddComponent( MeshComponentPtr inMeshComponent );
 
+		void AddAnimComponent(AnimComponentPtr inAnimComponent);
+
 		MeshComponentPtr GetComponent();
+
+		AnimComponentPtr GetAnimComponent();
 
 		// Spawn this object based on ObjectName
 		virtual void LoadFromIniSection( const string& inObjectName, const minIni& inIniSection );
@@ -38,6 +39,7 @@ namespace ITP485
 
 	private:
 		MeshComponentPtr mMeshComponentPtr;
+		AnimComponentPtr mAnimComponentPtr;
 
 	};
 	

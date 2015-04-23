@@ -484,6 +484,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Data\Animations\skel.itpanim" />
     <None Include="..\Data\Levels\Lab3Level.ini" />
     <None Include="..\Data\Levels\Lab4_1Level.ini" />
     <None Include="..\Data\Levels\Lab4_2Level.ini" />
