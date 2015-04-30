@@ -11,6 +11,7 @@ namespace ITP485
 	// Sets component pointers to NULL
 	GameObject::GameObject()
 	{
+		mAnimComponentPtr = nullptr;
 	}
 
 
@@ -90,9 +91,10 @@ namespace ITP485
 		{
 			AnimComponentPtr anim(new AnimComponent(animationString.c_str()));
 			AddAnimComponent(anim);
+			mesh->SetAnimation(anim);
 		}
 
-		// Apply transformations to mesh
+		// Apply transformations and animation to mesh
 		mesh->SetTranslation(position);
 		mesh->SetRotation(rotation);
 		mesh->SetScale(scale);
@@ -109,7 +111,8 @@ namespace ITP485
 
 	void GameObject::Update()
 	{
-
+		if (mAnimComponentPtr != nullptr)
+			mAnimComponentPtr->Update();
 	}
 
 }

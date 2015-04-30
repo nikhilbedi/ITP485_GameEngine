@@ -17,7 +17,33 @@ namespace ITP485
 	void AnimComponent::InitializeData()
 	{
 		//lab 5 todo
+		Joint* joints = mSkeleton.mJoints;
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			// store inverse bind matrix for each joint
+			short parentIndex = joints[i].mParentIndex;
+			if (parentIndex != -1)
+			{
+				joints[i].mInverseBindPose = joints[parentIndex].mInverseBindPose;
+				joints[i].mInverseBindPose.Multiply(joints[i].mLocalPose);
+			}
+			else
+			{
+				joints[i].mInverseBindPose = joints[i].mLocalPose;
+			}
+		}
+		// Invert all bind pose matrices to receive inverse bind poses
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			joints[i].mInverseBindPose.Invert();
+		}
 
+		// Set up matrix palette
+		JointPose* jointPoses = mPose.m_pPoses;
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+
+		}
 	}
 
 	AnimComponent::~AnimComponent()

@@ -34,6 +34,7 @@ namespace ITP485
 		void SetTranslation(const Vector3& inTranslation);
 		void SetScale(const float& inScale);
 		void SetTexture(const TexturePtr inTexture);
+		void SetAnimation(const AnimComponentPtr inAnimComponentPtr);
 
 
 
@@ -56,6 +57,9 @@ namespace ITP485
 
 		// Mesh's texture
 		TexturePtr mTexture;
+
+		// Mesh's animation -- if existent
+		AnimComponentPtr mAnimation;
 
 		// Transformation variables -- Scale
 		float mScale;

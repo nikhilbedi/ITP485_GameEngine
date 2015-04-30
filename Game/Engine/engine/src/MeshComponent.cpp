@@ -11,6 +11,7 @@ namespace ITP485
 		mScale = 1;
 		mTranslation = Vector3(0, 0, 0);
 		mRotation = Quaternion(0, 0, 0, 0);
+		mAnimation = nullptr;
 	}
 
 
@@ -71,5 +72,10 @@ namespace ITP485
 	void MeshComponent::SetTexture(const TexturePtr inTexture)
 	{
 		mTexture = inTexture;
+	}
+
+	void MeshComponent::SetAnimation(const AnimComponentPtr inAnimComponentPtr)
+	{
+		mAnimation = inAnimComponentPtr;
 	}
 }
