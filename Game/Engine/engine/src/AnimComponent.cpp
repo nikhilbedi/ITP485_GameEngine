@@ -18,9 +18,9 @@ namespace ITP485
 	{
 		//lab 5 todo
 		Joint* joints = mSkeleton.mJoints;
+		// calculate bind pose matrix for each joint
 		for (int i = 0; i < mSkeleton.mNumJoints; i++)
 		{
-			// store inverse bind matrix for each joint
 			short parentIndex = joints[i].mParentIndex;
 			if (parentIndex != -1)
 			{
@@ -38,11 +38,34 @@ namespace ITP485
 			joints[i].mInverseBindPose.Invert();
 		}
 
-		// Set up matrix palette
+		// Initialize SkeletonPose so that each joint's local pose has keyframe 0.
+		KeyFrame** keyFrames = mCurrAnimation.mKeyFrames;
 		JointPose* jointPoses = mPose.m_pPoses;
 		for (int i = 0; i < mSkeleton.mNumJoints; i++)
 		{
+			jointPoses[i].mLocalPose = keyFrames[i]->mLocalPose;
+		}
 
+		// Calculate the global current pose matrix, and store in palette
+		Matrix4* palette = mPalette;
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			short parentIndex = joints[i].mParentIndex;
+			if (parentIndex != -1)
+			{
+				palette[i] = palette[parentIndex];
+				palette[i].Multiply(jointPoses[i].mLocalPose);
+			}
+			else
+			{
+				palette[i] = jointPoses[i].mLocalPose;
+			}
+		}
+
+		// For each global current pose matrix, multiple by the inverse bind pose matrix
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			palette[i].Multiply(joints[i].mInverseBindPose);
 		}
 	}
 
