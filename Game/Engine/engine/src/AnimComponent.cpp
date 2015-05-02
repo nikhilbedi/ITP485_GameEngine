@@ -96,8 +96,10 @@ namespace ITP485
 
 	void AnimComponent::UpdateConstants()
 	{
-		//lab 5 todo
-
+		GraphicsBufferPtr perPaletteConstantBuffer = GraphicsDriver::Get()->GetPerPaletteConstantBuffer();
+		Matrix4* palettePtr = (Matrix4*)GraphicsDriver::Get()->MapBuffer(perPaletteConstantBuffer);
+		memcpy(palettePtr, mPalette, sizeof(Matrix4) * 32);
+		GraphicsDriver::Get()->UnmapBuffer(perPaletteConstantBuffer);
 	}
 
 

@@ -86,9 +86,10 @@ namespace ITP485
 		}
 
 		// Obtain animation and add animation if available
-		string animationString = "Animations\\" + inIni.gets(mObjectName, "Animation", "");
+		string animationString = inIni.gets(mObjectName, "Animation", "");
 		if (animationString.length() > 0)
 		{
+			animationString = "Animations\\" + inIni.gets(mObjectName, "Animation", "");
 			AnimComponentPtr anim(new AnimComponent(animationString.c_str()));
 			AddAnimComponent(anim);
 			mesh->SetAnimation(anim);

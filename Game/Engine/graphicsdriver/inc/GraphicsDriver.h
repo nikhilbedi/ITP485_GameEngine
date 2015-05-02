@@ -141,9 +141,11 @@ namespace ITP485
 
 		void SetPerObjectConstantBuffer( GraphicsBufferPtr inConstantBuffer ) { mPerObjectConstantBuffer = inConstantBuffer; }
 		void SetPerCameraConstantBuffer( GraphicsBufferPtr inConstantBuffer ) { mPerCameraConstantBuffer = inConstantBuffer; }
+		void SetPerPaletteConstantBuffer(GraphicsBufferPtr inConstantBuffer) { mPerPaletteConstantBuffer = inConstantBuffer; }
 
 		GraphicsBufferPtr GetPerObjectConstantBuffer() const { return mPerObjectConstantBuffer; }
 		GraphicsBufferPtr GetPerCameraConstantBuffer() const { return mPerCameraConstantBuffer; }
+		GraphicsBufferPtr GetPerPaletteConstantBuffer() const { return mPerPaletteConstantBuffer; }
 
 		uint32_t GetWindowWidth() const { return mWindowWidth; }
 		uint32_t GetWindowHeight() const { return mWindowHeight; }
@@ -158,6 +160,7 @@ namespace ITP485
 
 		GraphicsBufferPtr mPerObjectConstantBuffer;
 		GraphicsBufferPtr mPerCameraConstantBuffer;
+		GraphicsBufferPtr mPerPaletteConstantBuffer;
 
 		RenderTargetPtr	mCurrentRenderTarget;
 		DepthStencilPtr mCurrentDepthStencil;

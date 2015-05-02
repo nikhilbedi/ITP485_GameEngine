@@ -25,5 +25,7 @@ namespace ITP485
 		PixelShaderPtr      mPixelShader;
 
 		CameraPtr			mCamera;
+
+		GraphicsBufferPtr	mPaletteConstantBuffer;
 	};
 }

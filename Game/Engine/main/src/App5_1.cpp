@@ -36,24 +36,33 @@ namespace ITP485
 		//update to create new necessary objects and set new necessary state
 		//let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
 		vector< char > compiledVertexShader;
-		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App4_1.hlsl", "VS", "vs_4_0", compiledVertexShader);
+		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App5_1.hlsl", "VS", "vs_4_0", compiledVertexShader);
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader(compiledVertexShader);
 
 		//now load up the pixel shader named PS
 		vector< char > compiledPixelShader;
-		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App4_1.hlsl", "PS", "ps_4_0", compiledPixelShader);
+		GraphicsDriver::Get()->CompileShaderFromFile(L"Shaders\\App5_1.hlsl", "PS", "ps_4_0", compiledPixelShader);
 		mPixelShader = GraphicsDriver::Get()->CreatePixelShader(compiledPixelShader);
 
 		//create input layouts for position, normals, and texture coordinates
 		InputLayoutElement inputLayoutElements[]
 		{
+			
 			InputLayoutElement("POSITION", 0, EGF_R32G32B32_Float, 0),
-				InputLayoutElement("NORMAL", 0, EGF_R32G32B32_Float, 12),
-				InputLayoutElement("TEXCOORD", 0, EGF_R32G32_Float, 24)
+			InputLayoutElement("NORMAL", 0, EGF_R32G32B32_Float, 12),
+			InputLayoutElement("TEXCOORD", 0, EGF_R32G32_Float, 24),
+			InputLayoutElement("INDICES", 0, EGF_R32G32B32A32_Float, 32),
+			InputLayoutElement("WEIGHTS", 0, EGF_R32G32B32A32_Float, 48)
+			/*
+			InputLayoutElement("INDICES", 0, EGF_R32G32B32_Float, 0),
+			InputLayoutElement("WEIGHTS", 0, EGF_R32G32B32_Float, 12),
+			InputLayoutElement("POSITION", 0, EGF_R32G32B32_Float, 24),
+			InputLayoutElement("NORMAL", 0, EGF_R32G32B32_Float, 36),
+			InputLayoutElement("TEXCOORD", 0, EGF_R32G32_Float, 48)*/
 		};
 		InputLayoutPtr inputLayoutPtr =
-			GraphicsDriver::Get()->CreateInputLayout(inputLayoutElements, 3, compiledVertexShader);	// first parameter is an array of inputLayout elements!
-		InputLayoutCache::Get().RegisterLayout("pnt", inputLayoutPtr);
+			GraphicsDriver::Get()->CreateInputLayout(inputLayoutElements, 5, compiledVertexShader);	// first parameter is an array of inputLayout elements!
+		InputLayoutCache::Get().RegisterLayout("pnst", inputLayoutPtr);
 
 		// Set up Camera
 		mCamera = CameraPtr(new Camera(Vector3(0, 0, -2), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
@@ -88,12 +97,21 @@ namespace ITP485
 			EGBU_Dynamic)
 			);
 
+		// Set up palette constant buffer
+		Matrix4 palette[32];
+		GraphicsDriver::Get()->SetPerPaletteConstantBuffer(
+			GraphicsDriver::Get()->CreateGraphicsBuffer(
+			palette,
+			sizeof(palette),
+			EBF_ConstantBuffer,
+			ECPUAF_CanWrite,
+			EGBU_Dynamic)
+		);
 	}
 
 
 	void App5_1::Update()
 	{
-		//lab 5 todo
 		mCamera->UpdateConstants();
 
 		GameWorld::Get().Update();
@@ -101,10 +119,8 @@ namespace ITP485
 
 	void App5_1::Render()
 	{
-		//lab 5 todo
 		Setup();
 
-		//mMesh->Render();
 		GameWorld::Get().GetSceneGraph().Render();
 
 		GraphicsDriver::Get()->Present();
@@ -112,7 +128,6 @@ namespace ITP485
 
 	App5_1::~App5_1()
 	{
-		//lab 5 todo
 		GameWorld::Get().GetSceneGraph().Clear();
 		GameClassRegistry::Get().Clear();
 	}
@@ -130,11 +145,11 @@ namespace ITP485
 		/* Constants Setup */
 		GraphicsDriver::Get()->SetVSConstantBuffer(GraphicsDriver::Get()->GetPerCameraConstantBuffer(), 0);
 		GraphicsDriver::Get()->SetVSConstantBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer(), 1);
+		GraphicsDriver::Get()->SetVSConstantBuffer(GraphicsDriver::Get()->GetPerPaletteConstantBuffer(), 2);
 	}
 
 	void App5_1::RegisterGameClasses()
 	{
-		//lab 5 todo
 		string gameObjectString = "GameObject";
 		string spinnerString = "Spinner";
 		string rollerString = "Roller";

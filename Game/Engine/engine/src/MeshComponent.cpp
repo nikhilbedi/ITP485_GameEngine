@@ -21,7 +21,12 @@ namespace ITP485
 	{
 		if( mIsVisible )
 		{
-			//lab 3
+			// If there is an animation, update its current pose
+			if (mAnimation != NULL)
+			{
+				mAnimation->UpdateConstants();
+			}
+
 			// Assign affine transformations
 			Matrix4* objectToWorldMatrix = (Matrix4*)GraphicsDriver::Get()->MapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
 			Matrix4 tempTranslation(Matrix4::Identity);
