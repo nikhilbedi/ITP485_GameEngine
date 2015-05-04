@@ -20,11 +20,11 @@ Texture2D gTexture : register(t0);
 SamplerState gSamplerState : register(s0);
 
 struct VS_INPUT {
-	float3 mPos : POSITION;
+	float4 mPos : POSITION;
 	float3 mNormal : NORMAL;
-	float2 mTexCoord : TEXCOORD;
-	float4 mJointIndices : INDICES; // stores indices into the matrix palette 
 	float4 mJointWeights : WEIGHTS;
+	float4 mJointIndices : INDICES; // stores indices into the matrix palette 
+	float2 mTexCoord : TEXCOORD;
 };
 
 struct PS_INPUT {

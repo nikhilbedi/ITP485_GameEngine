@@ -47,18 +47,11 @@ namespace ITP485
 		//create input layouts for position, normals, and texture coordinates
 		InputLayoutElement inputLayoutElements[]
 		{
-			
 			InputLayoutElement("POSITION", 0, EGF_R32G32B32_Float, 0),
 			InputLayoutElement("NORMAL", 0, EGF_R32G32B32_Float, 12),
-			InputLayoutElement("TEXCOORD", 0, EGF_R32G32_Float, 24),
-			InputLayoutElement("INDICES", 0, EGF_R32G32B32A32_Float, 32),
-			InputLayoutElement("WEIGHTS", 0, EGF_R32G32B32A32_Float, 48)
-			/*
-			InputLayoutElement("INDICES", 0, EGF_R32G32B32_Float, 0),
-			InputLayoutElement("WEIGHTS", 0, EGF_R32G32B32_Float, 12),
-			InputLayoutElement("POSITION", 0, EGF_R32G32B32_Float, 24),
-			InputLayoutElement("NORMAL", 0, EGF_R32G32B32_Float, 36),
-			InputLayoutElement("TEXCOORD", 0, EGF_R32G32_Float, 48)*/
+			InputLayoutElement("WEIGHTS", 0, EGF_R32G32B32A32_Float, 24),
+			InputLayoutElement("INDICES", 0, EGF_R32G32B32A32_Float, 40),
+			InputLayoutElement("TEXCOORD", 0, EGF_R32G32_Float, 56)
 		};
 		InputLayoutPtr inputLayoutPtr =
 			GraphicsDriver::Get()->CreateInputLayout(inputLayoutElements, 5, compiledVertexShader);	// first parameter is an array of inputLayout elements!

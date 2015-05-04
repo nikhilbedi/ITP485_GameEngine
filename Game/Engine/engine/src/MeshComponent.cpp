@@ -18,7 +18,7 @@ namespace ITP485
 
 
 	void MeshComponent::Render()
-	{
+	{	
 		if( mIsVisible )
 		{
 			// If there is an animation, update its current pose
@@ -26,7 +26,6 @@ namespace ITP485
 			{
 				mAnimation->UpdateConstants();
 			}
-
 			// Assign affine transformations
 			Matrix4* objectToWorldMatrix = (Matrix4*)GraphicsDriver::Get()->MapBuffer(GraphicsDriver::Get()->GetPerObjectConstantBuffer());
 			Matrix4 tempTranslation(Matrix4::Identity);

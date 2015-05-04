@@ -98,7 +98,9 @@ namespace ITP485
 	{
 		GraphicsBufferPtr perPaletteConstantBuffer = GraphicsDriver::Get()->GetPerPaletteConstantBuffer();
 		Matrix4* palettePtr = (Matrix4*)GraphicsDriver::Get()->MapBuffer(perPaletteConstantBuffer);
-		memcpy(palettePtr, mPalette, sizeof(Matrix4) * 32);
+		memcpy(palettePtr, mPalette, sizeof(Matrix4) * mSkeleton.mNumJoints);
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+			palettePtr[i].Transpose();
 		GraphicsDriver::Get()->UnmapBuffer(perPaletteConstantBuffer);
 	}
 
