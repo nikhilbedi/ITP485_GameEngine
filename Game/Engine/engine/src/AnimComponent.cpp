@@ -97,31 +97,33 @@ namespace ITP485
 		mTime += Timing::Get().GetDeltaTime();
 		// Assumption -- 24.0 FPS
 		float singleFrameTime = (1.0 / 24.0);
-		float frameNumberFloat = mTime / singleFrameTime;
+		float frameNumberFloat = (mTime / singleFrameTime);
 		mCurrFrame = static_cast<int>(floorf(frameNumberFloat));
 		if (mCurrFrame >= mCurrAnimation.mNumFrames)
 		{
 			// we've finished the animation, so reset
 			mCurrFrame = 0;
 			mTime = 0.0f;
+			frameNumberFloat = 0.0f;
 		}
 
 		// Iterate over the animation's array of key frame linked lists to determine new local current poses
 		for (int i = 0; i < mSkeleton.mNumJoints; i++)
 		{
 			KeyFrame* keyFrame = keyFrames[i];
-			KeyFrame* nextKeyFrame = keyFrame->mNext;
+			KeyFrame* nextKeyFrame = keyFrame;
 			
 			// Obtain the initial keyframe
-			while (keyFrame->mNext != NULL)
+			while (nextKeyFrame != NULL)
 			{
-				keyFrame = keyFrame->mNext;
-				if (mCurrFrame <= keyFrame->mFrameNum)
+				keyFrame = nextKeyFrame;
+				if (mCurrFrame <= nextKeyFrame->mFrameNum)
 					break;
+				nextKeyFrame = nextKeyFrame->mNext;
 			}
 
 			// if the next keyframe is NULL, assign next keyFrame to be the zero-th key frame
-			if (keyFrame->mNext == NULL)
+			if (nextKeyFrame == NULL)
 			{
 				nextKeyFrame = keyFrames[i];
 			}
@@ -136,9 +138,14 @@ namespace ITP485
 			// Else, interpolate between the current keyframe and next keyframe for the current joint
 			else
 			{
-				float keyFrameGap = static_cast<float>(abs(nextKeyFrame->mFrameNum - keyFrame->mFrameNum));
-				float currentFrameWeight = static_cast<float>(abs(mCurrFrame - keyFrame->mFrameNum)) / keyFrameGap;
-				Lerp(keyFrame->mLocalPose, nextKeyFrame->mLocalPose, currentFrameWeight);
+				float keyFrameGap = 1.0;
+				if (nextKeyFrame->mFrameNum != 0)
+					keyFrameGap = static_cast<float>(abs(nextKeyFrame->mFrameNum - keyFrame->mFrameNum));
+				else
+					keyFrameGap = static_cast<float>(abs(mCurrAnimation.mNumFrames - keyFrame->mFrameNum));
+				float currentFrameWeight = static_cast<float>(abs(frameNumberFloat - static_cast<float>(keyFrame->mFrameNum))) / keyFrameGap;
+				jointPoses[i].mLocalPose = Lerp(keyFrame->mLocalPose, nextKeyFrame->mLocalPose, currentFrameWeight);
+				
 			}
 		}
 
