@@ -90,8 +90,79 @@ namespace ITP485
 
 	void AnimComponent::Update()
 	{
-		//lab 5 todo
+		KeyFrame** keyFrames = mCurrAnimation.mKeyFrames;
+		JointPose* jointPoses = mPose.m_pPoses;
+		Joint* joints = mSkeleton.mJoints;
 
+		mTime += Timing::Get().GetDeltaTime();
+		// Assumption -- 24.0 FPS
+		float singleFrameTime = (1.0 / 24.0);
+		float frameNumberFloat = mTime / singleFrameTime;
+		mCurrFrame = static_cast<int>(floorf(frameNumberFloat));
+		if (mCurrFrame >= mCurrAnimation.mNumFrames)
+		{
+			// we've finished the animation, so reset
+			mCurrFrame = 0;
+			mTime = 0.0f;
+		}
+
+		// Iterate over the animation's array of key frame linked lists to determine new local current poses
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			KeyFrame* keyFrame = keyFrames[i];
+			KeyFrame* nextKeyFrame = keyFrame->mNext;
+			
+			// Obtain the initial keyframe
+			while (keyFrame->mNext != NULL)
+			{
+				keyFrame = keyFrame->mNext;
+				if (mCurrFrame <= keyFrame->mFrameNum)
+					break;
+			}
+
+			// if the next keyframe is NULL, assign next keyFrame to be the zero-th key frame
+			if (keyFrame->mNext == NULL)
+			{
+				nextKeyFrame = keyFrames[i];
+			}
+
+			// if the next frame and current frame are the same OR if the frameNumber == keyframe->frameNumber,
+				// simply use this keyframe for the joint's local current pose
+			if (keyFrame == nextKeyFrame || mCurrFrame == keyFrame->mFrameNum)
+			{
+				jointPoses[i].mLocalPose = keyFrame->mLocalPose;
+				continue;
+			}
+			// Else, interpolate between the current keyframe and next keyframe for the current joint
+			else
+			{
+				float keyFrameGap = static_cast<float>(abs(nextKeyFrame->mFrameNum - keyFrame->mFrameNum));
+				float currentFrameWeight = static_cast<float>(abs(mCurrFrame - keyFrame->mFrameNum)) / keyFrameGap;
+				Lerp(keyFrame->mLocalPose, nextKeyFrame->mLocalPose, currentFrameWeight);
+			}
+		}
+
+		// Calculate the global current pose matrix, and store in palette
+		Matrix4* palette = mPalette;
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			short parentIndex = joints[i].mParentIndex;
+			if (parentIndex != -1)
+			{
+				palette[i] = palette[parentIndex];
+				palette[i].Multiply(jointPoses[i].mLocalPose);
+			}
+			else
+			{
+				palette[i] = jointPoses[i].mLocalPose;
+			}
+		}
+
+		// For each global current pose matrix, multiple by the inverse bind pose matrix
+		for (int i = 0; i < mSkeleton.mNumJoints; i++)
+		{
+			palette[i].Multiply(joints[i].mInverseBindPose);
+		}
 	}
 
 	void AnimComponent::UpdateConstants()
